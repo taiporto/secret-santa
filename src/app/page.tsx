@@ -1,6 +1,5 @@
-import db from "../../firebase";
 import styles from "./page.module.css";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import { DocumentData, collection, getDocs } from "firebase/firestore/lite";
 
 type User = {
   id: string;
@@ -10,13 +9,14 @@ type User = {
 export default async function Home() {
   const getUsers = async () => {
     try {
-      const unsub = onSnapshot(collection(db, "users"), (doc) => {
-        const docs: any = [];
-        doc.forEach((d: any) => {
-          docs.push({ ...d.data(), id: d.id });
-        });
-        return docs;
+      const userSnapshot = await getDocs(collection(db, "users"));
+      console.log(userSnapshot);
+      const userList = userSnapshot.docs.map((doc) => {
+        console.log(doc);
+        return doc.data();
       });
+
+      return userList;
     } catch (err) {
       console.error(err);
       return [];
@@ -31,7 +31,7 @@ export default async function Home() {
 
   return (
     <main className={styles.main}>
-      {users.map((user: User) => (
+      {users.map((user: DocumentData) => (
         <div key={user.id}>{user.name}</div>
       ))}
     </main>
