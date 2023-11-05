@@ -4,18 +4,25 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npx supabase gen types typescript --project-id yhxpmeglgfsmxrcoxwqv > database.types.ts; next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "npx supabase gen types typescript --project-id yhxpmeglgfsmxrcoxwqv > database.types.ts; next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/next-js": "^2.1.5",
+    "@chakra-ui/react": "^2.8.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@supabase/supabase-js": "^2.38.4",
     "dotenv": "^16.3.1",
     "firebase": "^10.5.2",
     "firebase-admin": "^11.11.0",
+    "framer-motion": "^10.16.4",
     "next": "14.0.1",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "supabase": "^1.110.1"
   },
   "devDependencies": {
     "@types/node": "^20",
