@@ -12,13 +12,13 @@ import {
 } from "@chakra-ui/react";
 import { Room, User } from "../../../types";
 import { useRoomContext } from "@/app/room/_context/room";
+import Link from "next/link";
 
 const generatePlayerLink = (playerId: User["id"], roomId: Room["id"]) => {
   return `/room/${roomId}/${playerId}`;
 };
 
-export const PlayerTable = ({ players }) => {
-  const { roomId } = useRoomContext();
+export const PlayerTable = ({ players, roomId }) => {
   return (
     <Table>
       <Thead>
@@ -28,10 +28,16 @@ export const PlayerTable = ({ players }) => {
       </Thead>
       <Tbody>
         {players?.map((player: User) => {
+          const playerLink = generatePlayerLink(player.id, roomId);
           return (
             <Tr key={player.id}>
               <Th>{player.name}</Th>
-              <Th>{generatePlayerLink(player.id, roomId)}</Th>
+              <Th>
+                <Link href={playerLink} target="_blank">
+                  {process.env.PROJECT_URL}
+                  {playerLink}
+                </Link>
+              </Th>
             </Tr>
           );
         })}

@@ -31,7 +31,11 @@ export default async function RoomPage({ params }: { params: { id: string } }) {
     <div>
       <Heading as="h2">{room.name}</Heading>
       <RoomContextProvider value={room.id}>
-        <div>{players.length > 0 && <PlayerTable players={players} />}</div>
+        <div>
+          {players.length > 0 && (
+            <PlayerTable players={players} roomId={room.id} />
+          )}
+        </div>
       </RoomContextProvider>
     </div>
   );
