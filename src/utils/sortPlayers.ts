@@ -1,6 +1,9 @@
 import { User } from "../../types";
 
+//TODO: Fix this sorting algorithm
+
 type UserId = User["id"];
+type UserIdTuple = [UserId, UserId];
 
 const pickRandomPlayer = (players: UserId[]): UserId => {
   return players[Math.floor(Math.random() * players.length)];
@@ -25,7 +28,6 @@ export const sortPlayers = (players: UserId[]): Array<[UserId, UserId]> => {
     console.log(pickedPlayers);
     while (
       pickedPlayers.has(randomPlayer) &&
-      pickedPlayers.get(randomPlayer) === player &&
       !iteratedPlayers.has(randomPlayer)
     ) {
       randomPlayer = pickRandomPlayer(playersButItself);
@@ -34,7 +36,7 @@ export const sortPlayers = (players: UserId[]): Array<[UserId, UserId]> => {
 
     pickedPlayers.set(randomPlayer, player);
 
-    return [randomPlayer, player];
+    return [randomPlayer, player] as UserIdTuple;
   });
 
   console.log(sortedPlayers);
