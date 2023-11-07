@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "npx supabase gen types typescript --project-id yhxpmeglgfsmxrcoxwqv > database.types.ts; next build",
     "start": "next start",
-    "lint": "npx supabase gen types typescript --project-id yhxpmeglgfsmxrcoxwqv > database.types.ts; next lint"
+    "lint": "npx supabase gen types typescript --project-id yhxpmeglgfsmxrcoxwqv > database.types.ts; next lint",
+    "test": "jest --watch --coverage",
+    "test:ci": "jest --ci"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
@@ -25,11 +27,15 @@
     "supabase": "^1.110.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.0.1",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "typescript": "^5"
   }
 }
