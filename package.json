@@ -7,7 +7,7 @@
     "build": "npx supabase gen types typescript --project-id yhxpmeglgfsmxrcoxwqv > database.types.ts; next build",
     "start": "next start",
     "lint": "npx supabase gen types typescript --project-id yhxpmeglgfsmxrcoxwqv > database.types.ts; next lint",
-    "test": "jest --watch --coverage",
+    "test": "jest --watch",
     "test:ci": "jest --ci"
   },
   "dependencies": {
@@ -27,8 +27,7 @@
     "supabase": "^1.110.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.1.4",
-    "@testing-library/react": "^14.0.0",
+    "@types/jest": "^29.5.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -36,6 +35,7 @@
     "eslint-config-next": "14.0.1",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5"
   }
 }
