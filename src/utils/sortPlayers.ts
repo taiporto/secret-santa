@@ -1,9 +1,9 @@
 import { User } from "../../types";
 
-//TODO: Fix this sorting algorithm
-
 type UserId = User["id"];
-type UserIdTuple = [UserId, UserId];
+type GifteeId = User["id"];
+type GifterId = User["id"];
+type UserIdTuple = [GifterId, GifteeId];
 
 const pickRandomPlayer = (players: UserId[]): UserId => {
   return players[Math.floor(Math.random() * players.length)];
@@ -17,29 +17,22 @@ export const sortPlayers = (players: UserId[]): Array<[UserId, UserId]> => {
     ];
   }
 
-  const pickedPlayers = new Map();
-  const sortedPlayers = players.map((player) => {
-    const playersButItself = players.filter((p) => p !== player);
-    const iteratedPlayers = new Set();
+  const availablePlayers = new Set(players);
 
-    let randomPlayer = pickRandomPlayer(playersButItself);
-    iteratedPlayers.add(randomPlayer);
+  return players.map((player) => {
+    const allAvailablePlayersButItself = new Set(availablePlayers);
+    allAvailablePlayersButItself.delete(player);
 
-    console.log(pickedPlayers);
-    while (
-      pickedPlayers.has(randomPlayer) &&
-      !iteratedPlayers.has(randomPlayer)
-    ) {
-      randomPlayer = pickRandomPlayer(playersButItself);
-      iteratedPlayers.add(randomPlayer);
+    let randomPlayer = pickRandomPlayer([...allAvailablePlayersButItself]);
+    allAvailablePlayersButItself.delete(randomPlayer);
+
+    while (randomPlayer === undefined) {
+      randomPlayer = pickRandomPlayer([...allAvailablePlayersButItself]);
+      allAvailablePlayersButItself.delete(randomPlayer);
     }
 
-    pickedPlayers.set(randomPlayer, player);
+    availablePlayers.delete(randomPlayer);
 
-    return [randomPlayer, player] as UserIdTuple;
+    return [player, randomPlayer] as UserIdTuple;
   });
-
-  console.log(sortedPlayers);
-
-  return sortedPlayers;
 };
