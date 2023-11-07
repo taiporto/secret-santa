@@ -1,5 +1,5 @@
 import { Center } from "@chakra-ui/react";
-import { MainForm } from "@/components/form/MainForm";
+import { MainForm } from "@/components/MainForm";
 import { createRoom } from "@/lib/api/rooms/createRoom";
 import { createUser } from "@/lib/api/users/createUser";
 import { sortPlayers } from "../utils/sortPlayers";
@@ -41,8 +41,6 @@ export default async function Home() {
       }
 
       const sortedPlayers = sortPlayers(players);
-
-      console.log(sortedPlayers);
 
       for (const [gifterId, gifteeId] of sortedPlayers) {
         const sortedPlayer = await createSortedPlayers({

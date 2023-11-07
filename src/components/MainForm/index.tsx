@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   FormControl,
@@ -17,7 +17,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { AddIcon, SmallCloseIcon } from "@chakra-ui/icons";
-import { Room } from "../../../../types";
+import { Room } from "../../../types";
+import { LoadingState } from "../LoadingState";
+import { LOADING_PHRASES } from "./constants";
 
 type MainFromProps = {
   handleSubmit: (data: FormData) => Promise<Room["id"] | undefined>;
@@ -26,23 +28,32 @@ type MainFromProps = {
 export const MainForm = ({ handleSubmit }: MainFromProps) => {
   const toast = useToast();
   const router = useRouter();
+
+  const lastInputRef = useRef<HTMLInputElement>(null);
+
   const [numberOfPlayers, setNumberOfPlayers] = useState(2);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: FormData) => {
-    const roomId = await handleSubmit(data);
-    if (!roomId) {
-      console.error("Room not found - Something went wrong");
-
+    try {
+      const roomId = await handleSubmit(data);
+      setIsLoading(false);
+      if (!roomId) {
+        console.error("Room not found - Something went wrong");
+        throw new Error("Room not found - Something went wrong");
+      }
+      router.push(`/room/${roomId}`);
+    } catch (err) {
+      setIsLoading(false);
+      console.error(err);
       toast({
         title: "Erro ao criar evento",
-        description: "Tente novamente mais tarde",
+        description: err?.toString(),
         status: "error",
         duration: 9000,
         isClosable: true,
       });
-      return;
     }
-    router.push(`/room/${roomId}`);
   };
 
   return (
@@ -69,16 +80,18 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
                     >
                       <FormLabel>Participante {player + 1}</FormLabel>
                       <Input
+                        ref={lastInputRef}
                         name={`player${player}`}
                         placeholder={`Nome do participante ${player + 1}`}
                       />
                     </FormControl>
                     <IconButton
-                      onClick={() =>
+                      onClick={() => {
                         setNumberOfPlayers(
                           (prevNumberOfPlayers) => --prevNumberOfPlayers
-                        )
-                      }
+                        );
+                        lastInputRef.current?.focus();
+                      }}
                       aria-label="Remover participante"
                       icon={<SmallCloseIcon />}
                     />
@@ -93,13 +106,17 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
                   setNumberOfPlayers(
                     (prevNumberOfPlayers) => ++prevNumberOfPlayers
                   );
+
+                  lastInputRef.current?.focus();
                 }}
               />
             </VStack>
           </fieldset>
         </Container>
       </VStack>
-      <Button type="submit">Sortear!</Button>
+      <Button type="submit" onClick={() => setIsLoading(true)}>
+        {isLoading ? <LoadingState phrases={LOADING_PHRASES} /> : "Sortear!"}
+      </Button>
     </form>
   );
 };
