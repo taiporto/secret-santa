@@ -25,6 +25,10 @@ export default async function Home() {
         }
       }
 
+      if (players.length === 0) {
+        console.error("Empty player list");
+      }
+
       const room = await createRoom({
         roomName: roomName,
         priceLimit: +priceLimit,
@@ -32,23 +36,20 @@ export default async function Home() {
       });
 
       if (!room) {
+        console.log("No room :(");
         console.error("Room not created");
         return;
-      }
-
-      if (players.length === 0) {
-        console.error("Empty player list");
       }
 
       const sortedPlayers = sortPlayers(players);
 
       for (const [gifterId, gifteeId] of sortedPlayers) {
-        const sortedPlayer = await createSortedPlayers({
+        const sortedPlayers = await createSortedPlayers({
           gifterId,
           gifteeId,
           roomId: room.id,
         });
-        if (!sortedPlayer) {
+        if (!sortedPlayers) {
           console.error("Sorted players not created");
         }
       }

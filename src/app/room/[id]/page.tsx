@@ -1,5 +1,5 @@
 import React from "react";
-import { Heading } from "@chakra-ui/react";
+import { Box, Container, Heading, VStack } from "@chakra-ui/react";
 import { getRoomById } from "@/lib/api/rooms/getRoom";
 import { getUserById } from "@/lib/api/users/getUser";
 import { User } from "../../../../types";
@@ -12,9 +12,9 @@ export default async function RoomPage({ params }: { params: { id: string } }) {
 
   if (!room)
     return (
-      <div>
-        <Heading as="h2">Evento não encontrado</Heading>
-      </div>
+      <Container>
+        <Heading as="h2">Evento não encontrado :(</Heading>
+      </Container>
     );
 
   if (!room.players) {
@@ -28,15 +28,25 @@ export default async function RoomPage({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div>
-      <Heading as="h2">{room.name}</Heading>
-      <RoomContextProvider value={room.id}>
-        <div>
-          {players.length > 0 && (
-            <PlayerTable players={players} roomId={room.id} />
-          )}
-        </div>
-      </RoomContextProvider>
-    </div>
+    <RoomContextProvider value={room.id}>
+      <Container my={14}>
+        <VStack my={6} gap={16}>
+          <Box>
+            <span>Evento:</span>
+            <Heading as="h2" size="lg" textAlign="center">
+              {room.name}
+            </Heading>
+          </Box>
+          <VStack align="center">
+            <Heading as="h3" size="md">
+              Participantes
+            </Heading>
+            {players.length > 0 && (
+              <PlayerTable players={players} roomId={room.id} />
+            )}
+          </VStack>
+        </VStack>
+      </Container>
+    </RoomContextProvider>
   );
 }
