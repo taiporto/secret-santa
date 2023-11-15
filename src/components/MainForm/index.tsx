@@ -37,12 +37,12 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
   const onSubmit = async (data: FormData) => {
     try {
       const roomId = await handleSubmit(data);
-      setIsLoading(false);
       if (!roomId) {
         console.error("Room not found - Something went wrong");
         throw new Error("Room not found - Something went wrong");
       }
       router.push(`/room/${roomId}`);
+      setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
       console.error(err);
@@ -107,7 +107,7 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
                     (prevNumberOfPlayers) => ++prevNumberOfPlayers
                   );
 
-                  lastInputRef.current?.focus();
+                  (lastInputRef.current?.nextSibling as HTMLElement)?.focus();
                 }}
               />
             </VStack>

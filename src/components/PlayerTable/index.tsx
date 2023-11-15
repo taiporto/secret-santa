@@ -1,30 +1,25 @@
 import React from "react";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th } from "@chakra-ui/react";
 import { Room, User } from "../../../types";
-import { useRoomContext } from "@/app/room/_context/room";
-import Link from "next/link";
+import { PlayerLink } from "./components/PlayerLink";
 
 const generatePlayerLink = (playerId: User["id"], roomId: Room["id"]) => {
   return `/room/${roomId}/${playerId}`;
 };
 
-export const PlayerTable = ({ players, roomId }) => {
+type PlayerTableProps = {
+  players: User[];
+  roomId: Room["id"];
+};
+
+export const PlayerTable = ({ players, roomId }: PlayerTableProps) => {
   return (
     <Table>
       <Thead>
-        <Th>Participante</Th>
-        <Th>Link</Th>
-        <Th>Copiar link</Th>
+        <Tr>
+          <Th>Participante</Th>
+          <Th>Link pessoal</Th>
+        </Tr>
       </Thead>
       <Tbody>
         {players?.map((player: User) => {
@@ -33,10 +28,7 @@ export const PlayerTable = ({ players, roomId }) => {
             <Tr key={player.id}>
               <Th>{player.name}</Th>
               <Th>
-                <Link href={playerLink} target="_blank">
-                  {process.env.PROJECT_URL}
-                  {playerLink}
-                </Link>
+                <PlayerLink playerLink={playerLink} />
               </Th>
             </Tr>
           );

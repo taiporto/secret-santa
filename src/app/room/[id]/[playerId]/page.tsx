@@ -11,7 +11,7 @@ export default async function RoomPage({
   const sortedPlayers = await getSortedPlayersByGifterId(+params.playerId);
 
   if (!sortedPlayers) {
-    return <Heading>Erro ao carregar página</Heading>;
+    return <Heading>Erro ao carregar página :(</Heading>;
   }
 
   const giftee = await getUserById(+sortedPlayers["giftee_id"]);

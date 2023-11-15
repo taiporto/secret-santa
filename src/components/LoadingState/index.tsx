@@ -1,17 +1,23 @@
 import { Flex, Spacer, Spinner } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 type LoadingStateProps = {
   phrases: string[];
 };
 
 export const LoadingState = ({ phrases }: LoadingStateProps) => {
-  const [shownPhrase, setShownPhrase] = React.useState(phrases[0]);
+  const [shownPhrase, setShownPhrase] = useState(phrases[0]);
 
   useEffect(() => {
+    let index = 0;
     const switchPhrases = setInterval(() => {
-      const index = Math.floor(Math.random() * phrases.length);
       setShownPhrase(phrases[index]);
+
+      if (index === phrases.length - 1) {
+        index = 0;
+      } else {
+        index += 1;
+      }
     }, 1000);
 
     return () => clearInterval(switchPhrases);
