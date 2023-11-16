@@ -1,52 +1,81 @@
-import { useRoomContext } from "@/app/room/_context/room";
+"use client";
+
+import NextLink from "next/link";
 import {
   Box,
+  Button,
   Card,
   CardBody,
   CardHeader,
+  Center,
   Heading,
   Highlight,
+  Link,
   Stack,
   StackDivider,
   Text,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { Room, User } from "../../../../../../../types";
 import { formatCurrency } from "@/utils/formatCurrency";
+import ReactCardFlip from "react-card-flip";
 
 export const GifteeCard = ({ giftee, room }: { giftee: User; room: Room }) => {
+  const [flip, setFlip] = useState(false);
   return (
-    <Card>
-      <CardHeader>
-        <Heading as="h3" size="md">
-          <Highlight
-            query={giftee.name}
-            styles={{ px: "2", py: "1", rounded: "full", bg: "accent.100" }}
-          >
-            {`Você sorteou ${giftee.name}`}
-          </Highlight>
-        </Heading>
-      </CardHeader>
-      <Stack divider={<StackDivider />} spacing="4">
-        <Box>
-          <Heading size="xs" textTransform="uppercase">
-            Nome do evento
+    <ReactCardFlip isFlipped={flip} flipDirection="horizontal">
+      <Card h={300} w={300} mt={8}>
+        <CardBody display="flex">
+          <Button m="auto" onClick={() => setFlip(true)}>
+            Clique para descobrir
+          </Button>
+        </CardBody>
+      </Card>
+      <Card px={8} pt={2} pb={6} mt={8}>
+        <CardHeader>
+          <Heading as="h3" size="md">
+            <Highlight
+              query={giftee.name}
+              styles={{ px: "2", py: "1", rounded: "full", bg: "accent.100" }}
+            >
+              {`Você sorteou ${giftee.name}`}
+            </Highlight>
           </Heading>
-          <Text pt="2" fontSize="sm">
-            {room.name}
-          </Text>
+        </CardHeader>
+        <Box mt={5}>
+          <Stack divider={<StackDivider />} spacing="4">
+            <Text fontWeight="semibold">Outros dados do seu evento</Text>
+            <Box>
+              <Heading size="xs" textTransform="uppercase">
+                Nome do evento
+              </Heading>
+              <Text pt="2" fontSize="md">
+                <Link
+                  as={NextLink}
+                  href={`${process.env.NEXT_PUBLIC_PROJECT_URL}${room.id}`}
+                  textDecoration="underline"
+                  _hover={{ color: "accent.600" }}
+                >
+                  {room.name}
+                </Link>
+              </Text>
+            </Box>
+            <Box>
+              <Heading size="xs" textTransform="uppercase">
+                Limite de valor do presente
+              </Heading>
+              <Text pt="2" fontSize="md">
+                {room.price_limit
+                  ? formatCurrency(room.price_limit)
+                  : "Não definido"}
+              </Text>
+            </Box>
+          </Stack>
+          <Center mt={6}>
+            <Button onClick={() => setFlip(false)}>Esconder</Button>
+          </Center>
         </Box>
-        {room.price_limit && (
-          <Box>
-            <Heading size="xs" textTransform="uppercase">
-              Limite de valor do presente
-            </Heading>
-            <Text pt="2" fontSize="sm">
-              {formatCurrency(room.price_limit)}
-            </Text>
-          </Box>
-        )}
-      </Stack>
-    </Card>
+      </Card>
+    </ReactCardFlip>
   );
 };

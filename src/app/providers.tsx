@@ -9,7 +9,9 @@ import { colors } from "@/theme";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["300", "400", "600", "700"],
+  display: "swap",
+  variable: "--font-poppins",
+  weight: ["100", "300", "400", "600", "700"],
 });
 
 export const theme = extendTheme({

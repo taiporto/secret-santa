@@ -1,3 +1,5 @@
+import "./globals.css";
+
 import type { Metadata } from "next";
 import { Heading, Center } from "@chakra-ui/react";
 
@@ -8,7 +10,11 @@ export const metadata: Metadata = {
   description: "Sorteie seu amigo oculto",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="pt-br">
       <body>
