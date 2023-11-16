@@ -38,7 +38,9 @@ const createMessage = (
 };
 
 export const ShareButtons = ({ players }: { players: User[] }) => {
-  const { roomId } = useRoomContext();
+  const {
+    room: { id: roomId },
+  } = useRoomContext();
   const handleCopyData = () => {
     const message = createMessage(players, roomId);
     navigator.clipboard.writeText(message);

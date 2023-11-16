@@ -6,9 +6,7 @@ import { User } from "../../../../types";
 import { PlayerTable } from "@/components/PlayerTable";
 import { RoomContextProvider } from "../_context/room";
 import { ShareButtons } from "./_components/ShareButtons";
-
-const formatCurrency = (amount: number) =>
-  `R$${amount.toFixed(2).toString().replace(".", ",")}`;
+import { formatCurrency } from "@/utils/formatCurrency";
 
 export default async function RoomPage({ params }: { params: { id: string } }) {
   const room = await getRoomById(+params.id);
@@ -32,7 +30,7 @@ export default async function RoomPage({ params }: { params: { id: string } }) {
   }
 
   return (
-    <RoomContextProvider value={room.id}>
+    <RoomContextProvider value={room}>
       <Container my={8}>
         <VStack my={6} gap={12}>
           <VStack align="center">

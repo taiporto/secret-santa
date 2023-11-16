@@ -3,19 +3,19 @@ import React, { createContext, useContext, useState } from "react";
 import { Room } from "../../../../types";
 
 type RoomContextType = {
-  roomId: Room["id"];
-  setRoomId: (roomId: Room["id"]) => void;
+  room: Room;
+  setRoom: (roomId: Room) => void;
 };
 
 const RoomContext = createContext<RoomContextType>({
-  roomId: 0,
-  setRoomId: () => {},
+  room: {} as Room,
+  setRoom: () => {},
 });
 
 export const useRoomContext = () => useContext(RoomContext);
 
 type RoomContextProviderProps = {
-  value: Room["id"];
+  value: Room;
   children: React.ReactNode;
 };
 
@@ -23,10 +23,10 @@ export const RoomContextProvider = ({
   value,
   children,
 }: RoomContextProviderProps) => {
-  const [roomId, setRoomId] = useState<number>(value);
+  const [room, setRoom] = useState<Room>(value);
 
   return (
-    <RoomContext.Provider value={{ roomId, setRoomId }}>
+    <RoomContext.Provider value={{ room, setRoom }}>
       {children}
     </RoomContext.Provider>
   );
