@@ -6,7 +6,6 @@ import {
   FormControl,
   FormLabel,
   Flex,
-  Spacer,
   Input,
   Container,
   VStack,
@@ -16,6 +15,8 @@ import {
   Button,
   useToast,
   Box,
+  InputGroup,
+  InputLeftElement,
 } from "@chakra-ui/react";
 import { AddIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { Room } from "../../../types";
@@ -33,10 +34,11 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
   const roomNameRef = useRef<HTMLInputElement>(null);
   const playerOneRef = useRef<HTMLInputElement>(null);
   const playerTwoRef = useRef<HTMLInputElement>(null);
+  const playerThreeRef = useRef<HTMLInputElement>(null);
 
-  const refs = [playerOneRef, playerTwoRef];
+  const refs = [playerOneRef, playerTwoRef, playerThreeRef];
 
-  const [numberOfPlayers, setNumberOfPlayers] = useState(2);
+  const [numberOfPlayers, setNumberOfPlayers] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: FormData) => {
@@ -73,6 +75,26 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
               placeholder="Qual o nome do seu amigo oculto?"
             />
           </FormControl>
+          <FormControl id="room-price-limit" isRequired>
+            <FormLabel>Limite de valor</FormLabel>
+            <InputGroup>
+              <InputLeftElement
+                pointerEvents="none"
+                color="gray.500"
+                fontSize="1.2em"
+              >
+                <Flex>
+                  <span>R$</span>
+                </Flex>
+              </InputLeftElement>
+              <Input
+                type="number"
+                name="priceLimit"
+                defaultValue={15}
+                step={0.5}
+              />
+            </InputGroup>
+          </FormControl>
           <Container>
             <fieldset>
               <VStack spacing={6}>
@@ -85,7 +107,7 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
                       <Flex key={player} align="end" gap={4}>
                         <FormControl
                           id={`player-${player}`}
-                          isRequired={player <= 1}
+                          isRequired={player <= 2}
                         >
                           <FormLabel>Participante {player + 1}</FormLabel>
                           <Input
@@ -96,10 +118,10 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
                         </FormControl>
                         <IconButton
                           onClick={() => {
-                            if (player <= 1) {
+                            if (player <= 2) {
                               toast({
                                 title:
-                                  "O jogo deve ter pelo menos dois participantes",
+                                  "O jogo deve ter pelo menos três participantes",
                                 status: "warning",
                               });
                               return;
@@ -132,11 +154,14 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
         <Button
           type="submit"
           w="100%"
+          isLoading={isLoading}
+          loadingText={<LoadingState phrases={LOADING_PHRASES} />}
           onClick={() => {
             if (
               roomNameRef.current?.value === "" ||
               playerOneRef.current?.value === "" ||
-              playerTwoRef.current?.value === ""
+              playerTwoRef.current?.value === "" ||
+              playerThreeRef.current?.value === ""
             ) {
               toast({
                 title: "Por favor preencha os campos obrigatórios",
@@ -147,7 +172,7 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
             setIsLoading(true);
           }}
         >
-          {isLoading ? <LoadingState phrases={LOADING_PHRASES} /> : "Sortear!"}
+          Sortear!
         </Button>
       </form>
     </Box>

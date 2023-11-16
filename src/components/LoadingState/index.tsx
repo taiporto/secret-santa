@@ -1,4 +1,3 @@
-import { Flex, Spacer, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 type LoadingStateProps = {
@@ -23,11 +22,5 @@ export const LoadingState = ({ phrases }: LoadingStateProps) => {
     return () => clearInterval(switchPhrases);
   }, [phrases]);
 
-  return (
-    <Flex>
-      <Spinner />
-      <Spacer />
-      {shownPhrase}
-    </Flex>
-  );
+  return shownPhrase;
 };

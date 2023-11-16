@@ -16,7 +16,9 @@ export default async function Home() {
         if (typeof value !== "string" || value === "") return;
 
         if (key.includes("player")) {
-          const user = await createUser({ name: value });
+          const user = await createUser({
+            name: value,
+          });
           if (!user) {
             console.error("User not created");
             return;

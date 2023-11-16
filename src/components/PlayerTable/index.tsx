@@ -2,10 +2,7 @@ import React from "react";
 import { Table, Thead, Tbody, Tr, Th } from "@chakra-ui/react";
 import { Room, User } from "../../../types";
 import { PlayerLink } from "./components/PlayerLink";
-
-const generatePlayerLink = (playerId: User["id"], roomId: Room["id"]) => {
-  return `/room/${roomId}/${playerId}`;
-};
+import { generatePlayerLink } from "@/utils/generatePlayerLink";
 
 type PlayerTableProps = {
   players: User[];

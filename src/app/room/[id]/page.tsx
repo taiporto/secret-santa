@@ -1,10 +1,14 @@
 import React from "react";
-import { Box, Container, Heading, VStack } from "@chakra-ui/react";
+import { Box, Center, Container, Heading, VStack } from "@chakra-ui/react";
 import { getRoomById } from "@/lib/api/rooms/getRoom";
 import { getUserById } from "@/lib/api/users/getUser";
 import { User } from "../../../../types";
 import { PlayerTable } from "@/components/PlayerTable";
 import { RoomContextProvider } from "../_context/room";
+import { ShareButtons } from "./_components/ShareButtons";
+
+const formatCurrency = (amount: number) =>
+  `R$${amount.toFixed(2).toString().replace(".", ",")}`;
 
 export default async function RoomPage({ params }: { params: { id: string } }) {
   const room = await getRoomById(+params.id);
@@ -29,15 +33,20 @@ export default async function RoomPage({ params }: { params: { id: string } }) {
 
   return (
     <RoomContextProvider value={room.id}>
-      <Container my={14}>
-        <VStack my={6} gap={16}>
-          <Box>
+      <Container my={8}>
+        <VStack my={6} gap={12}>
+          <VStack align="center">
             <span>Evento:</span>
             <Heading as="h2" size="lg" textAlign="center">
               {room.name}
             </Heading>
-          </Box>
-          <VStack align="center">
+          </VStack>
+          {room.price_limit && (
+            <Box>
+              <span>Limite de valor: {formatCurrency(room.price_limit)}</span>
+            </Box>
+          )}
+          <VStack align="center" gap={6}>
             <Heading as="h3" size="md">
               Participantes
             </Heading>
@@ -46,6 +55,9 @@ export default async function RoomPage({ params }: { params: { id: string } }) {
             )}
           </VStack>
         </VStack>
+        <Center>
+          <ShareButtons players={players} />
+        </Center>
       </Container>
     </RoomContextProvider>
   );

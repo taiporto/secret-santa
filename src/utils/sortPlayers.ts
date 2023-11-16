@@ -10,13 +10,6 @@ const pickRandomPlayer = (players: UserId[]): UserId => {
 };
 
 export const sortPlayers = (players: UserId[]): Array<[UserId, UserId]> => {
-  if (players.length === 2) {
-    return [
-      [players[0], players[1]],
-      [players[1], players[0]],
-    ];
-  }
-
   const availablePlayers = new Set(players);
 
   return players.map((player) => {
