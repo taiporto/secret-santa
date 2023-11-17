@@ -13,7 +13,7 @@ const createMessage = (
   forWhatsapp?: boolean
 ) => {
   let message =
-    "**🔀 Sorteio do Amigo Oculto 🤫**\n\nClique no link abaixo do seu nome para saber quem você tirou:\n\n";
+    "**Sorteio do Amigo Oculto**\n\nClique no link abaixo do seu nome para saber quem você tirou:\n\n";
 
   for (const player of playersData) {
     const playerLink =

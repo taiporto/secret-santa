@@ -13,7 +13,9 @@ export default async function Home() {
       const priceLimit = data.get("priceLimit") as string;
       const players = [];
       for (const [key, value] of data.entries()) {
-        if (typeof value !== "string" || value === "") return;
+        if (typeof value !== "string" || value === "") {
+          continue;
+        }
 
         if (key.includes("player")) {
           const user = await createUser({

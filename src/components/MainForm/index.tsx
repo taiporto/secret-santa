@@ -65,7 +65,12 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
 
   return (
     <Box my={14}>
-      <form action={onSubmit}>
+      <form
+        action={(data: FormData) => {
+          setIsLoading(true); //TODO: Fix this
+          onSubmit(data);
+        }}
+      >
         <VStack gap={8} mb={8}>
           <FormControl id="room-name" isRequired>
             <FormLabel>Nome do evento</FormLabel>
@@ -75,7 +80,7 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
               placeholder="Qual o nome do seu amigo oculto?"
             />
           </FormControl>
-          <FormControl id="room-price-limit" isRequired>
+          <FormControl id="room-price-limit">
             <FormLabel>Limite de valor</FormLabel>
             <InputGroup>
               <InputLeftElement
@@ -156,21 +161,6 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
           w="100%"
           isLoading={isLoading}
           loadingText={<LoadingState phrases={LOADING_PHRASES} />}
-          onClick={() => {
-            if (
-              roomNameRef.current?.value === "" ||
-              playerOneRef.current?.value === "" ||
-              playerTwoRef.current?.value === "" ||
-              playerThreeRef.current?.value === ""
-            ) {
-              toast({
-                title: "Por favor preencha os campos obrigatórios",
-                status: "error",
-              });
-              return;
-            }
-            setIsLoading(true);
-          }}
         >
           Sortear!
         </Button>

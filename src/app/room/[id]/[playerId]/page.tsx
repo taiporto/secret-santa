@@ -1,25 +1,12 @@
 import { getSortedPlayersByGifterId } from "@/lib/api/sortedPlayers/getSortedPlayers";
 import { getUserById } from "@/lib/api/users/getUser";
-import {
-  Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Card,
-  CardBody,
-  CardHeader,
-  Container,
-  Heading,
-  Highlight,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Heading, Text, VStack } from "@chakra-ui/react";
 import { GifteeCard } from "./_components/GifteeCard";
 import { getRoomById } from "@/lib/api/rooms/getRoom";
-import ReactCardFlip from "react-card-flip";
-import { ChevronRightIcon } from "@chakra-ui/icons";
-import { FaChevronRight } from "react-icons/fa";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { Suspense } from "react";
+
+export const revalidate = 60;
 
 export default async function RoomPage({
   params,
@@ -35,6 +22,7 @@ export default async function RoomPage({
 
   const giftee = await getUserById(+sortedPlayers["giftee_id"]);
   const room = await getRoomById(+params.id);
+  console.log({ room });
 
   if (!room || !player) return <Heading>Algo deu errado :(</Heading>;
 
@@ -54,13 +42,17 @@ export default async function RoomPage({
         ]}
       />
       <VStack my={10}>
-        <Heading as="h2" size="lg" mb={4}>
-          Oi, {player.name}!
-        </Heading>
+        <Suspense fallback={<p>Carregando usuário...</p>}>
+          <Heading as="h2" size="lg" mb={4}>
+            Oi, {player.name}!
+          </Heading>
+        </Suspense>
         <Text>Clique abaixo para descobrir quem você vai presentear:</Text>
-        <Box>
-          <GifteeCard giftee={giftee!} room={room} />
-        </Box>
+        <Suspense fallback={<p>Carregando sorteio...</p>}>
+          <Box>
+            <GifteeCard giftee={giftee!} room={room} />
+          </Box>
+        </Suspense>
       </VStack>
     </>
   );
