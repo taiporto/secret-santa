@@ -48,7 +48,7 @@ export const ShareButtons = ({ players }: { players: User[] }) => {
 
   const handleSendToWhatsapp = () => {
     const message = createMessage(players, roomId, true);
-    const url = `https://web.whatsapp.com/send?text=${message}`;
+    const url = `https://wa.me/?text=${message}`;
     window.open(url, "_blank");
   };
 
