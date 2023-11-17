@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Room, User } from "../../../../../../types";
@@ -53,9 +53,9 @@ export const ShareButtons = ({ players }: { players: User[] }) => {
   };
 
   return (
-    <ButtonGroup>
+    <Flex gap={4} flexDir={{ base: "column", md: "row" }}>
       <Button variant="outline" onClick={handleCopyData}>
-        Copiar
+        Copiar participantes e links
       </Button>
       <Button
         colorScheme="whatsapp"
@@ -64,6 +64,6 @@ export const ShareButtons = ({ players }: { players: User[] }) => {
       >
         Enviar para o WhatsApp
       </Button>
-    </ButtonGroup>
+    </Flex>
   );
 };

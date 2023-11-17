@@ -1,7 +1,7 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Heading, Center } from "@chakra-ui/react";
+import { Heading, VStack } from "@chakra-ui/react";
 
 import { Providers } from "./providers";
 
@@ -19,10 +19,10 @@ export default function RootLayout({
     <html lang="pt-br">
       <body>
         <Providers>
-          <Center>
+          <VStack p={4} pb={6}>
             <Heading as="h1">Amigo Oculto</Heading>
-          </Center>
-          {children}
+            {children}
+          </VStack>
         </Providers>
       </body>
     </html>

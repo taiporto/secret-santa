@@ -25,7 +25,7 @@ export const PlayerLink = ({ playerLink }: PlayerLinkProps) => {
 
   return (
     <Flex justify="space-between" gap={6} align="center">
-      <Link as={NextLink} href={playerLink} target="_blank">
+      <Link as={NextLink} href={playerLink}>
         {process.env.NEXT_PUBLIC_PROJECT_URL}
         {playerLink}
       </Link>

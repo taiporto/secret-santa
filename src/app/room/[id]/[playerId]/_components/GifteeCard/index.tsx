@@ -33,10 +33,15 @@ export const GifteeCard = ({ giftee, room }: { giftee: User; room: Room }) => {
       </Card>
       <Card px={8} pt={2} pb={6} mt={8}>
         <CardHeader>
-          <Heading as="h3" size="md">
+          <Heading as="h3" size="md" lineHeight="tall" textAlign="center">
             <Highlight
               query={giftee.name}
-              styles={{ px: "2", py: "1", rounded: "full", bg: "accent.100" }}
+              styles={{
+                px: "2",
+                py: "1",
+                rounded: "full",
+                bg: "secondary.200",
+              }}
             >
               {`Você sorteou ${giftee.name}`}
             </Highlight>
@@ -44,7 +49,9 @@ export const GifteeCard = ({ giftee, room }: { giftee: User; room: Room }) => {
         </CardHeader>
         <Box mt={5}>
           <Stack divider={<StackDivider />} spacing="4">
-            <Text fontWeight="semibold">Outros dados do seu evento</Text>
+            <Text fontWeight="semibold" textAlign="center">
+              Outros dados do seu evento
+            </Text>
             <Box>
               <Heading size="xs" textTransform="uppercase">
                 Nome do evento

@@ -11,7 +11,7 @@ type PlayerTableProps = {
 
 export const PlayerTable = ({ players, roomId }: PlayerTableProps) => {
   return (
-    <Table>
+    <Table overflowX="auto">
       <Thead>
         <Tr>
           <Th>Participante</Th>
