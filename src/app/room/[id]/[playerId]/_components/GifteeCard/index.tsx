@@ -59,7 +59,7 @@ export const GifteeCard = ({ giftee, room }: { giftee: User; room: Room }) => {
               <Text pt="2" fontSize="md">
                 <Link
                   as={NextLink}
-                  href={`${process.env.NEXT_PUBLIC_PROJECT_URL}${room.id}`}
+                  href={`${process.env.NEXT_PUBLIC_PROJECT_URL}/room/${room.id}`}
                   textDecoration="underline"
                   _hover={{ color: "accent.600" }}
                 >

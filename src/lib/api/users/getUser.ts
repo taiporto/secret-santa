@@ -1,3 +1,4 @@
+import "server-only";
 import { supabase } from "@/lib/supabase-config";
 
 export const getUserById = async (id: number) => {

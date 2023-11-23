@@ -1,3 +1,4 @@
+import "server-only";
 import { supabase } from "@/lib/supabase-config";
 import { User } from "../../../../types";
 

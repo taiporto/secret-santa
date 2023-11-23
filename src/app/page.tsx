@@ -40,7 +40,6 @@ export default async function Home() {
       });
 
       if (!room) {
-        console.log("No room :(");
         console.error("Room not created");
         return;
       }
@@ -60,7 +59,6 @@ export default async function Home() {
 
       return room.id;
     } catch (err) {
-      console.log(err);
       return;
     }
   };

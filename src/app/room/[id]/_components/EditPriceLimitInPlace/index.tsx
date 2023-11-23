@@ -1,13 +1,18 @@
 "use client";
 
-import { Editable, EditableInput, EditablePreview } from "@chakra-ui/react";
-import React, { useState } from "react";
+import {
+  Editable,
+  EditableInput,
+  EditablePreview,
+  useToast,
+} from "@chakra-ui/react";
+import React, { useRef } from "react";
 import { Room } from "../../../../../../types";
 import { clientUpdateRoom } from "@/api/room/clientUpdateRoom";
 import { formatCurrency } from "@/utils/formatCurrency";
 
 const NO_DEFINED_VALUE = "Sem valor definido, clique aqui para definir";
-const CURRENCY_REGEX = /[R$]?((\d{1,2}),\d{2})/;
+const CURRENCY_REGEX = /(R\$)?((\d+)(,\d{2})?)/;
 
 const cleanValue = (value: string) => {
   if (!CURRENCY_REGEX.test(value)) return;
@@ -16,36 +21,51 @@ const cleanValue = (value: string) => {
 
   if (!extractedValue) return;
 
-  return +extractedValue[1].replace(",", ".");
+  return +extractedValue[2].replace(",", ".");
 };
 
 export const EditPriceLimitInPlace = ({ room }: { room: Room }) => {
-  const [value, setValue] = useState(
-    room.price_limit ? formatCurrency(+room.price_limit) : NO_DEFINED_VALUE
-  );
+  const toast = useToast();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const previewRef = useRef<HTMLSpanElement>(null);
+
+  const handleChangeValue = async (nextValue: string) => {
+    if (nextValue === "0") {
+      previewRef!.current!.innerText = NO_DEFINED_VALUE;
+      await clientUpdateRoom(room.id, {
+        price_limit: null,
+      });
+      return;
+    }
+    const newValue = cleanValue(nextValue);
+    if (!newValue) {
+      toast({
+        title: "Valor inválido",
+        status: "error",
+      });
+      return;
+    }
+    const updated = await clientUpdateRoom(room.id, {
+      price_limit: newValue,
+    });
+    if (updated) {
+      inputRef!.current!.value = formatCurrency(+newValue);
+      previewRef!.current!.innerText = formatCurrency(+newValue);
+    }
+  };
 
   return (
     <Editable
+      submitOnBlur={true}
       borderRadius={6}
       color={room.price_limit === 0 ? "gray.400" : "text.800"}
-      defaultValue={value}
+      defaultValue={
+        room.price_limit ? formatCurrency(+room.price_limit) : NO_DEFINED_VALUE
+      }
+      onSubmit={handleChangeValue}
     >
-      <EditablePreview w="100%" />
-      <EditableInput
-        onBlur={async (event) => {
-          if (event.target.value === "") return;
-          const newValue = cleanValue(event.target.value);
-          if (!newValue) return;
-          console.log(newValue);
-          const updated = await clientUpdateRoom(room.id, {
-            price_limit: newValue,
-          });
-          if (updated) {
-            console.log("updated");
-            setValue(formatCurrency(+newValue));
-          }
-        }}
-      />
+      <EditablePreview w="100%" ref={previewRef} />
+      <EditableInput ref={inputRef} />
     </Editable>
   );
 };

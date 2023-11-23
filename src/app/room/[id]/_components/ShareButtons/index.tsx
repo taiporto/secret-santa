@@ -32,8 +32,6 @@ const createMessage = (
     message = message.replaceAll("**", "%2A");
   }
 
-  console.log(message);
-
   return message;
 };
 

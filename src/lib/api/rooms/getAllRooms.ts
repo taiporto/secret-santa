@@ -10,8 +10,6 @@ export const getAllRooms = async () => {
 
     if (!data || data.length === 0) throw new Error("No data");
 
-    console.log(data);
-
     const userList = data.map((user) => user);
     return userList;
   } catch (err) {

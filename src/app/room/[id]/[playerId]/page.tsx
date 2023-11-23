@@ -6,7 +6,7 @@ import { getRoomById } from "@/lib/api/rooms/getRoom";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Suspense } from "react";
 
-export const revalidate = 60;
+export const revalidate = 10;
 
 export default async function RoomPage({
   params,
@@ -22,7 +22,6 @@ export default async function RoomPage({
 
   const giftee = await getUserById(+sortedPlayers["giftee_id"]);
   const room = await getRoomById(+params.id);
-  console.log({ room });
 
   if (!room || !player) return <Heading>Algo deu errado :(</Heading>;
 

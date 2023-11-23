@@ -1,3 +1,4 @@
+import "server-only";
 import { supabase } from "@/lib/supabase-config";
 
 export const getSortedPlayersByGifterId = async (id: number) => {

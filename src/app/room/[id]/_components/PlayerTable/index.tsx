@@ -3,28 +3,18 @@ import { Table, Thead, Tbody, Tr, Th, Center } from "@chakra-ui/react";
 import { Room, User } from "../../../../../../types";
 import { PlayerLink } from "./components/PlayerLink";
 import { generatePlayerLink } from "@/utils/generatePlayerLink";
-import { getRoomById } from "@/lib/api/rooms/getRoom";
-import { getUserById } from "@/lib/api/users/getUser";
 import { ShareButtons } from "@/app/room/[id]/_components/ShareButtons";
+import { getUserById } from "@/lib/api/users/getUser";
 
 type PlayerTableProps = {
+  playerIds: User["id"][];
   roomId: Room["id"];
 };
 
-export const PlayerTable = async ({ roomId }: PlayerTableProps) => {
-  const room = await getRoomById(roomId);
+export const PlayerTable = async ({ playerIds, roomId }: PlayerTableProps) => {
   const players = [];
 
-  if (!room) {
-    console.error("Room not found");
-    return;
-  }
-
-  if (!room.players) {
-    console.error("Empty player list");
-  }
-
-  for (const playerId of room.players) {
+  for (const playerId of playerIds) {
     const player = await getUserById(playerId);
     if (!player) continue;
     players.push(player);
@@ -32,7 +22,7 @@ export const PlayerTable = async ({ roomId }: PlayerTableProps) => {
 
   return (
     <>
-      <Table overflowX="auto">
+      <Table>
         <Thead>
           <Tr>
             <Th>Participante</Th>
