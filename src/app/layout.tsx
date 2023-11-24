@@ -9,6 +9,7 @@ import { Analytics } from "@vercel/analytics/react";
 export const metadata: Metadata = {
   title: "Amigo Oculto",
   description: "Sorteie seu amigo oculto",
+  keywords: "amigo secreto, amigo oculto, sorteio, natal",
 };
 
 export default function RootLayout({
