@@ -5,7 +5,6 @@ import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Room, User } from "../../../../../../types";
 import { generatePlayerLink as generatePlayerLinkPath } from "@/utils/generatePlayerLink";
-import { useRoomContext } from "@/app/room/_context/room";
 
 const createMessage = (
   playersData: User[],
@@ -35,10 +34,9 @@ const createMessage = (
   return message;
 };
 
-export const ShareButtons = ({ players }: { players: User[] }) => {
-  const {
-    room: { id: roomId },
-  } = useRoomContext();
+type ShareButtonsProps = { players: User[]; roomId: Room["id"] };
+
+export const ShareButtons = ({ players, roomId }: ShareButtonsProps) => {
   const handleCopyData = () => {
     const message = createMessage(players, roomId);
     navigator.clipboard.writeText(message);

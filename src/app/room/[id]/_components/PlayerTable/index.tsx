@@ -44,7 +44,7 @@ export const PlayerTable = async ({ playerIds, roomId }: PlayerTableProps) => {
         </Tbody>
       </Table>
       <Center>
-        <ShareButtons players={players} />
+        <ShareButtons players={players} roomId={roomId} />
       </Center>
     </>
   );

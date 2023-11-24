@@ -46,7 +46,7 @@ export const PlayerList = async ({ playerIds, roomId }: PlayerListProps) => {
         })}
       </List>
       <Center>
-        <ShareButtons players={players} />
+        <ShareButtons players={players} roomId={roomId} />
       </Center>
     </VStack>
   );
