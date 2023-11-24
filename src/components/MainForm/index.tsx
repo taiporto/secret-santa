@@ -66,8 +66,8 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
   return (
     <Box my={14}>
       <form
+        onSubmit={() => setIsLoading(true)}
         action={(data: FormData) => {
-          setIsLoading(true); //TODO: Fix this
           onSubmit(data);
         }}
       >
