@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Heading, VStack } from "@chakra-ui/react";
 
 import { Providers } from "./providers";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "Amigo Oculto",
@@ -22,6 +23,7 @@ export default function RootLayout({
           <VStack p={4} pb={6}>
             <Heading as="h1">Amigo Oculto</Heading>
             {children}
+            <Analytics />
           </VStack>
         </Providers>
       </body>
