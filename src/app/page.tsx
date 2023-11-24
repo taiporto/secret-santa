@@ -64,10 +64,8 @@ export default async function Home() {
   };
 
   return (
-    <main>
-      <Center>
-        <MainForm handleSubmit={handleSubmit} />
-      </Center>
-    </main>
+    <Center>
+      <MainForm handleSubmit={handleSubmit} />
+    </Center>
   );
 }

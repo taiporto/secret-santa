@@ -31,7 +31,7 @@ export const PlayerList = async ({ playerIds, roomId }: PlayerListProps) => {
 
   return (
     <VStack spacing={6}>
-      <List spacing={4}>
+      <List spacing={4} maxW="100%">
         {players.map((player) => {
           const playerLink = generatePlayerLink(player.id, roomId);
           return (

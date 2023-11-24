@@ -24,12 +24,13 @@ export const PlayerLink = ({ playerLink }: PlayerLinkProps) => {
   };
 
   return (
-    <Flex justify="space-between" gap={6} align="center">
-      <Link as={NextLink} href={playerLink}>
+    <Flex justify="space-between" gap={[4, 6]} align="center">
+      <Link as={NextLink} href={playerLink} fontSize={["small", "xs"]}>
         {process.env.NEXT_PUBLIC_PROJECT_URL}
         {playerLink}
       </Link>
       <IconButton
+        size="sm"
         onClick={handleCopyLink}
         icon={clipboardIcon}
         aria-label="Copiar link"

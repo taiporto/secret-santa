@@ -1,5 +1,14 @@
 import React from "react";
-import { Table, Thead, Tbody, Tr, Th, Center } from "@chakra-ui/react";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Center,
+  Box,
+  VStack,
+} from "@chakra-ui/react";
 import { Room, User } from "../../../../../../types";
 import { PlayerLink } from "./components/PlayerLink";
 import { generatePlayerLink } from "@/utils/generatePlayerLink";
@@ -21,7 +30,7 @@ export const PlayerTable = async ({ playerIds, roomId }: PlayerTableProps) => {
   }
 
   return (
-    <>
+    <VStack spacing={6}>
       <Table>
         <Thead>
           <Tr>
@@ -46,6 +55,6 @@ export const PlayerTable = async ({ playerIds, roomId }: PlayerTableProps) => {
       <Center>
         <ShareButtons players={players} roomId={roomId} />
       </Center>
-    </>
+    </VStack>
   );
 };

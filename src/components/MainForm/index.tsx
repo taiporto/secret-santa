@@ -64,7 +64,7 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
   };
 
   return (
-    <Box my={14}>
+    <Box my={14} px={[4, 0]}>
       <form
         onSubmit={() => setIsLoading(true)}
         action={(data: FormData) => {

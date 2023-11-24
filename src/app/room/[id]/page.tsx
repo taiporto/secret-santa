@@ -1,12 +1,5 @@
-import React, { Suspense } from "react";
-import {
-  Box,
-  Container,
-  Heading,
-  Skeleton,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import React from "react";
+import { Box, Heading, Text, VStack } from "@chakra-ui/react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { getRoomById } from "@/lib/api/rooms/getRoom";
 import { EditPriceLimitInPlace } from "./_components/EditPriceLimitInPlace";
@@ -19,7 +12,7 @@ export default async function RoomPage({ params }: { params: { id: string } }) {
     return <Heading>Something went wrong</Heading>;
   }
   return (
-    <>
+    <Box>
       <Breadcrumbs
         paths={[
           {
@@ -29,7 +22,7 @@ export default async function RoomPage({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <Container my={8}>
+      <Box my={8}>
         <VStack my={6} gap={12}>
           <VStack align="center">
             <Text>Evento:</Text>
@@ -48,7 +41,7 @@ export default async function RoomPage({ params }: { params: { id: string } }) {
             <Players roomId={room.id} players={room.players} />
           </VStack>
         </VStack>
-      </Container>
-    </>
+      </Box>
+    </Box>
   );
 }
