@@ -1,6 +1,6 @@
-import { Skeleton } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
 
 export default function Loading() {
   // You can add any UI inside Loading, including a Skeleton.
-  return <Skeleton height="600px" />;
+  return <Center>Loading...</Center>;
 }
