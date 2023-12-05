@@ -5,13 +5,11 @@ import {
   Divider,
   Heading,
   List,
-  ListIcon,
   ListItem,
   VStack,
 } from "@chakra-ui/react";
 import { ShareButtons } from "../ShareButtons";
-import { getUserById } from "@/lib/api/users/getUser";
-import Link from "next/link";
+import { getUsersById } from "@/lib/api/users/getUser";
 import { PlayerLink } from "../PlayerTable/components/PlayerLink";
 import { generatePlayerLink } from "@/utils/generatePlayerLink";
 
@@ -21,13 +19,7 @@ type PlayerListProps = {
 };
 
 export const PlayerList = async ({ playerIds, roomId }: PlayerListProps) => {
-  const players = [];
-
-  for (const playerId of playerIds) {
-    const player = await getUserById(playerId);
-    if (!player) continue;
-    players.push(player);
-  }
+  const players = await getUsersById(playerIds);
 
   return (
     <VStack spacing={6}>
