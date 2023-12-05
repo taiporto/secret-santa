@@ -1,19 +1,10 @@
 import React from "react";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Center,
-  Box,
-  VStack,
-} from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Center, VStack } from "@chakra-ui/react";
 import { Room, User } from "../../../../../../types";
 import { PlayerLink } from "./components/PlayerLink";
 import { generatePlayerLink } from "@/utils/generatePlayerLink";
 import { ShareButtons } from "@/app/room/[id]/_components/ShareButtons";
-import { getUserById } from "@/lib/api/users/getUser";
+import { getUsersById } from "@/lib/api/users/getUser";
 
 type PlayerTableProps = {
   playerIds: User["id"][];
@@ -21,13 +12,7 @@ type PlayerTableProps = {
 };
 
 export const PlayerTable = async ({ playerIds, roomId }: PlayerTableProps) => {
-  const players = [];
-
-  for (const playerId of playerIds) {
-    const player = await getUserById(playerId);
-    if (!player) continue;
-    players.push(player);
-  }
+  const players = await getUsersById(playerIds);
 
   return (
     <VStack spacing={6}>

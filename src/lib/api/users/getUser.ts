@@ -2,36 +2,37 @@ import "server-only";
 import { supabase } from "@/lib/supabase-config";
 
 export const getUserById = async (id: number) => {
-  try {
-    const { data, error } = await supabase.from("users").select().eq("id", id);
+  const { data, error } = await supabase.from("users").select().eq("id", id);
 
-    if (error) {
-      console.error("Err: ", error);
-      return;
-    }
-
-    return data[0];
-  } catch (err) {
-    console.error(err);
-    return;
+  if (error) {
+    throw new Error(error.message);
   }
+
+  return data[0];
+};
+
+export const getUsersById = async (idArray: number[]) => {
+  const { data, error } = await supabase
+    .from("users")
+    .select()
+    .in("id", idArray);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
 };
 
 export const getUserByName = async (name: string) => {
-  try {
-    const { data, error } = await supabase
-      .from("users")
-      .select()
-      .eq("name", name);
+  const { data, error } = await supabase
+    .from("users")
+    .select()
+    .eq("name", name);
 
-    if (error) {
-      console.error("Err: ", error);
-      return;
-    }
-
-    return data[0];
-  } catch (err) {
-    console.error(err);
-    return;
+  if (error) {
+    throw new Error(error.message);
   }
+
+  return data[0];
 };
