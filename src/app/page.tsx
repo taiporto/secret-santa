@@ -1,9 +1,9 @@
 import { Center } from "@chakra-ui/react";
 import { MainForm } from "@/components/MainForm";
 import { createRoom } from "@/lib/api/rooms/createRoom";
-import { createUser } from "@/lib/api/users/createUser";
+import { bulkCreateUsers } from "@/lib/api/users/createUser";
 import { sortPlayers } from "../utils/sortPlayers";
-import { createSortedPlayers } from "@/lib/api/sortedPlayers/createSortedPlayers";
+import { bulkCreateSortedPlayers } from "@/lib/api/sortedPlayers/createSortedPlayers";
 
 export default async function Home() {
   const handleSubmit = async (data: FormData) => {
@@ -11,32 +11,22 @@ export default async function Home() {
     try {
       const roomName = (data.get("roomName") as string) ?? "Evento sem nome";
       const priceLimit = data.get("priceLimit") as string;
-      const players = [];
-      for (const [key, value] of data.entries()) {
-        if (typeof value !== "string" || value === "") {
-          continue;
-        }
 
-        if (key.includes("player")) {
-          const user = await createUser({
-            name: value,
-          });
-          if (!user) {
-            console.error("User not created");
-            return;
-          }
-          players.push(user.id);
-        }
-      }
+      const userNames = ([...data.entries()] as [string, string][]).flatMap(
+        ([key, value]) =>
+          key.includes("player") && value !== "" ? [value] : []
+      );
 
-      if (players.length === 0) {
+      const playerIds = await bulkCreateUsers(userNames);
+
+      if (playerIds.length === 0) {
         console.error("Empty player list");
       }
 
       const room = await createRoom({
         roomName: roomName,
         priceLimit: +priceLimit,
-        players,
+        players: playerIds,
       });
 
       if (!room) {
@@ -44,21 +34,19 @@ export default async function Home() {
         return;
       }
 
-      const sortedPlayers = sortPlayers(players);
+      const sortedPlayers = await bulkCreateSortedPlayers(
+        sortPlayers(playerIds),
+        room.id
+      );
 
-      for (const [gifterId, gifteeId] of sortedPlayers) {
-        const sortedPlayers = await createSortedPlayers({
-          gifterId,
-          gifteeId,
-          roomId: room.id,
-        });
-        if (!sortedPlayers) {
-          console.error("Sorted players not created");
-        }
+      if (!sortedPlayers) {
+        console.error("Sorted players not created");
+        return;
       }
 
       return room.id;
     } catch (err) {
+      console.error(err);
       return;
     }
   };

@@ -13,19 +13,36 @@ export const createSortedPlayers = async ({
   gifteeId,
   roomId,
 }: CreateSortedPlayersProps) => {
-  try {
-    const { data, error } = await supabase
-      .from("sorted_users")
-      .insert({ gifter_id: gifterId, giftee_id: gifteeId, room_id: roomId })
-      .select();
+  const { data, error } = await supabase
+    .from("sorted_users")
+    .insert({ gifter_id: gifterId, giftee_id: gifteeId, room_id: roomId })
+    .select();
 
-    if (error) {
-      throw new Error(JSON.stringify(error));
-    }
-
-    return data[0];
-  } catch (err) {
-    console.error(err);
-    return;
+  if (error) {
+    throw new Error(JSON.stringify(error));
   }
+
+  return data[0];
+};
+
+export const bulkCreateSortedPlayers = async (
+  sortedPlayersData: [number, number][],
+  roomId: Room["id"]
+) => {
+  const { data, error } = await supabase
+    .from("sorted_users")
+    .insert(
+      sortedPlayersData.map(([gifterId, gifteeId]) => ({
+        gifter_id: gifterId,
+        giftee_id: gifteeId,
+        room_id: roomId,
+      }))
+    )
+    .select();
+
+  if (error) {
+    throw new Error(JSON.stringify(error));
+  }
+
+  return data;
 };
