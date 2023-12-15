@@ -12,10 +12,19 @@ export default async function Home() {
       const roomName = (data.get("roomName") as string) ?? "Evento sem nome";
       const priceLimit = data.get("priceLimit") as string;
 
-      const userNames = ([...data.entries()] as [string, string][]).flatMap(
-        ([key, value]) =>
-          key.includes("player") && value !== "" ? [value] : []
-      );
+      let userNames = [];
+
+      if (
+        data.get("batch-players") !== null &&
+        data.get("batch-players") !== ""
+      ) {
+        userNames = (data.get("batch-players") as string).split(",");
+      } else {
+        userNames = ([...data.entries()] as [string, string][]).flatMap(
+          ([key, value]) =>
+            key.includes("player") && value !== "" ? [value] : []
+        );
+      }
 
       const playerIds = await bulkCreateUsers(userNames);
 

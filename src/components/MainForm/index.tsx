@@ -17,11 +17,17 @@ import {
   Box,
   InputGroup,
   InputLeftElement,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
 } from "@chakra-ui/react";
 import { AddIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import { Room } from "../../../types";
 import { LoadingState } from "../LoadingState";
 import { LOADING_PHRASES } from "./constants";
+import { BatchAddInput } from "../BatchAddInput";
 
 type MainFromProps = {
   handleSubmit: (data: FormData) => Promise<Room["id"] | undefined>;
@@ -101,59 +107,80 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
             </InputGroup>
           </FormControl>
           <Container>
-            <fieldset>
-              <VStack spacing={6}>
-                <Heading as="h2" size="lg">
-                  Participantes
-                </Heading>
-                <SimpleGrid spacing="4">
-                  {Array.from(Array(numberOfPlayers).keys()).map(
-                    (player: number) => (
-                      <Flex key={player} align="end" gap={4}>
-                        <FormControl
-                          id={`player-${player}`}
-                          isRequired={player <= 2}
-                        >
-                          <FormLabel>Participante {player + 1}</FormLabel>
-                          <Input
-                            ref={refs[player] || null}
-                            name={`player${player}`}
-                            placeholder={`Nome do participante ${player + 1}`}
-                          />
-                        </FormControl>
+            <VStack spacing={6}>
+              <Heading as="h2" size="lg">
+                Participantes
+              </Heading>
+              <Tabs colorScheme="primary" align="center">
+                <TabList>
+                  <Tab>Um por um</Tab>
+                  <Tab>De uma vez só</Tab>
+                </TabList>
+
+                <TabPanels>
+                  <TabPanel>
+                    <fieldset>
+                      <VStack spacing={6}>
+                        <SimpleGrid spacing="4">
+                          {Array.from(Array(numberOfPlayers).keys()).map(
+                            (player: number) => (
+                              <Flex key={player} align="end" gap={4}>
+                                <FormControl
+                                  id={`player-${player}`}
+                                  isRequired={player <= 2}
+                                >
+                                  <FormLabel>
+                                    Participante {player + 1}
+                                  </FormLabel>
+                                  <Input
+                                    ref={refs[player] || null}
+                                    name={`player${player}`}
+                                    placeholder={`Nome do participante ${
+                                      player + 1
+                                    }`}
+                                  />
+                                </FormControl>
+                                <IconButton
+                                  onClick={() => {
+                                    if (player <= 2) {
+                                      toast({
+                                        title:
+                                          "O jogo deve ter pelo menos três participantes",
+                                        status: "warning",
+                                      });
+                                      return;
+                                    }
+                                    setNumberOfPlayers(
+                                      (prevNumberOfPlayers) =>
+                                        --prevNumberOfPlayers
+                                    );
+                                  }}
+                                  aria-label="Remover participante"
+                                  icon={<SmallCloseIcon />}
+                                />
+                              </Flex>
+                            )
+                          )}
+                        </SimpleGrid>
                         <IconButton
+                          w="full"
+                          aria-label="Adicionar participante"
+                          icon={<AddIcon />}
                           onClick={() => {
-                            if (player <= 2) {
-                              toast({
-                                title:
-                                  "O jogo deve ter pelo menos três participantes",
-                                status: "warning",
-                              });
-                              return;
-                            }
                             setNumberOfPlayers(
-                              (prevNumberOfPlayers) => --prevNumberOfPlayers
+                              (prevNumberOfPlayers) => ++prevNumberOfPlayers
                             );
                           }}
-                          aria-label="Remover participante"
-                          icon={<SmallCloseIcon />}
                         />
-                      </Flex>
-                    )
-                  )}
-                </SimpleGrid>
-                <IconButton
-                  w="full"
-                  aria-label="Adicionar participante"
-                  icon={<AddIcon />}
-                  onClick={() => {
-                    setNumberOfPlayers(
-                      (prevNumberOfPlayers) => ++prevNumberOfPlayers
-                    );
-                  }}
-                />
-              </VStack>
-            </fieldset>
+                      </VStack>
+                    </fieldset>
+                  </TabPanel>
+                  <TabPanel>
+                    <BatchAddInput />
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+            </VStack>
           </Container>
         </VStack>
         <Button
