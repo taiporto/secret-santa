@@ -18,10 +18,11 @@ import {
   InputGroup,
   InputLeftElement,
 } from "@chakra-ui/react";
-import { AddIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import { SmallCloseIcon } from "@chakra-ui/icons";
 import { Room } from "../../../types";
 import { LoadingState } from "../LoadingState";
 import { LOADING_PHRASES } from "./constants";
+import { AddMoreButton } from "../AddMoreButton";
 
 type MainFromProps = {
   handleSubmit: (data: FormData) => Promise<Room["id"] | undefined>;
@@ -142,15 +143,9 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
                     )
                   )}
                 </SimpleGrid>
-                <IconButton
-                  w="full"
-                  aria-label="Adicionar participante"
-                  icon={<AddIcon />}
-                  onClick={() => {
-                    setNumberOfPlayers(
-                      (prevNumberOfPlayers) => ++prevNumberOfPlayers
-                    );
-                  }}
+                <AddMoreButton
+                  setStateFunction={setNumberOfPlayers}
+                  ariaLabel="Adicionar participantes"
                 />
               </VStack>
             </fieldset>

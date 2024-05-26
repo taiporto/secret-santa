@@ -3,7 +3,7 @@
 import { Box, Button, List, useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import { User } from "../../../../../../../types";
-import { CreateWishlistItemModal } from "../CreateWishlistItemModal";
+import { CreateWishlistModal } from "../CreateWishlistModal";
 
 export const MyWishlist = ({ wishlist }: { wishlist: User["wishlist"] }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -22,7 +22,7 @@ export const MyWishlist = ({ wishlist }: { wishlist: User["wishlist"] }) => {
           ))}
         </List>
       </Box>
-      <CreateWishlistItemModal isOpen={isOpen} onClose={onClose} />
+      <CreateWishlistModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };
