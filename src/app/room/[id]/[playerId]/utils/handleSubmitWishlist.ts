@@ -11,11 +11,11 @@ export const handleSubmitWishlist = async (
   ([...data.entries()] as [string, string][]).map(([field, value]) => {
     const itemKey = field.match(/\d+/);
     const fieldName = field.match(/(?<=\d-item-).+/)?.[0] || field;
-    const prevValues = wishlistMap.get(`item-${itemKey}`);
-    wishlistMap.set(`item-${itemKey}`, { ...prevValues, [fieldName]: value });
+    const prevValues = wishlistMap.get(itemKey);
+    wishlistMap.set(itemKey, { ...prevValues, [fieldName]: value });
   });
 
-  const wishlistItems = Object.fromEntries(wishlistMap);
+  const wishlistItems = Array.from(wishlistMap.values());
   const result = await createOrUpdateWishlist({
     userId,
     wishlistItems,

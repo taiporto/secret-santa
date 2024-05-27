@@ -1,13 +1,6 @@
 import React, { Suspense } from "react";
 
-import {
-  Box,
-  HStack,
-  Heading,
-  StackDivider,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, HStack, Heading, StackDivider, VStack } from "@chakra-ui/react";
 
 import { getSortedPlayersByGifterId } from "@/lib/api/sortedPlayers/getSortedPlayers";
 import { getUserById } from "@/lib/api/users/getUser";
@@ -17,7 +10,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RoomData } from "./_components/RoomData";
 import { MyWishlist } from "./_components/MyWishlist";
 
-export const revalidate = 10;
+export const revalidate = 0;
 
 export default async function RoomPage({
   params,
@@ -75,7 +68,10 @@ export default async function RoomPage({
                 <Heading as="h3" size="md" mb={4}>
                   Minha lista de presentes
                 </Heading>
-                <MyWishlist wishlist={player.wishlist} />
+                <MyWishlist
+                  userId={+params.playerId}
+                  wishlist={player.wishlist}
+                />
               </Box>
             </VStack>
           </HStack>

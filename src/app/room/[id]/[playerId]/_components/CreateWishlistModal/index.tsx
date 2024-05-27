@@ -33,18 +33,23 @@ export const CreateWishlistModal = ({
   const onSubmit = async (data: FormData) => {
     console.log("Submit");
     setIsLoading(true);
-    const result = await handleSubmitWishlist(data, userId);
-
-    if (result) {
+    try {
+      const result = await handleSubmitWishlist(data, userId);
+      if (result) {
+        setIsLoading(false);
+        toast({
+          title: "Items adicionados com sucesso",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        onClose();
+      }
+    } catch (e) {
+      console.error(e);
       setIsLoading(false);
-      toast({
-        title: "Items adicionados com sucesso",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
-      onClose();
     }
+
   };
 
   return (

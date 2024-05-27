@@ -18,7 +18,10 @@ const createWishlist = async (
     .eq("id", userId)
     .select();
 
-  if (error) throw new Error("Error updating wishlist");
+  if (error) {
+    console.error("Error updating wishlist");
+    throw new Error(error.message);
+  }
 
   return data[0].wishlist;
 };
@@ -32,11 +35,17 @@ export const createOrUpdateWishlist = async ({
     .select("wishlist")
     .eq("id", userId);
 
-  if (prevWishlistError) throw new Error("Error fetching previous wishlist");
+  if (prevWishlistError) {
+    console.error(prevWishlistError);
+    throw new Error("Error fetching previous wishlist");
+    return;
+  }
 
   const prevWishlist = prevWishlistData[0].wishlist;
 
-  if (!prevWishlist || !prevWishlist.length) {
+  console.log(!prevWishlist);
+
+  if (!prevWishlist) {
     return createWishlist(wishlistItems, userId);
   }
 
@@ -48,7 +57,10 @@ export const createOrUpdateWishlist = async ({
     .eq("id", userId)
     .select();
 
-  if (error) throw new Error("Error updating wishlist");
+  if (error) {
+    console.error("Error updating wishlist");
+    throw new Error(error.message);
+  }
 
   return data[0].wishlist;
 };

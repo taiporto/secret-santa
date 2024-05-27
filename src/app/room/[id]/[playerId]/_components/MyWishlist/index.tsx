@@ -5,7 +5,12 @@ import React from "react";
 import { User } from "../../../../../../../types";
 import { CreateWishlistModal } from "../CreateWishlistModal";
 
-export const MyWishlist = ({ wishlist }: { wishlist: User["wishlist"] }) => {
+type MyWishlistProps = {
+  wishlist: User["wishlist"];
+  userId: User["id"];
+};
+
+export const MyWishlist = ({ wishlist, userId }: MyWishlistProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleAddItem = () => {
@@ -15,14 +20,14 @@ export const MyWishlist = ({ wishlist }: { wishlist: User["wishlist"] }) => {
   return (
     <>
       <Box>
-        <Button onClick={handleAddItem}>Adicionar item</Button>
         <List>
           {wishlist?.map((item, index) => (
-            <Box key={index}>{JSON.stringify(item)}</Box>
+            <WishlistItem key={index} wishlistItemData={item} />
           ))}
         </List>
+        <Button onClick={handleAddItem}>Adicionar item</Button>
       </Box>
-      <CreateWishlistModal isOpen={isOpen} onClose={onClose} />
+      <CreateWishlistModal userId={userId} isOpen={isOpen} onClose={onClose} />
     </>
   );
 };
