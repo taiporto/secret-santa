@@ -2,8 +2,12 @@
 
 import { Box, Button, List, useDisclosure } from "@chakra-ui/react";
 import React from "react";
-import { User } from "../../../../../../../types";
+import {
+  User,
+  WishlistItem as TWishlistItem,
+} from "../../../../../../../types";
 import { CreateWishlistModal } from "../CreateWishlistModal";
+import { WishlistItem } from "./components/WishlistItem";
 
 type MyWishlistProps = {
   wishlist: User["wishlist"];
@@ -21,8 +25,8 @@ export const MyWishlist = ({ wishlist, userId }: MyWishlistProps) => {
     <>
       <Box>
         <List>
-          {wishlist?.map((item, index) => (
-            <WishlistItem key={index} wishlistItemData={item} />
+          {wishlist?.map((item: TWishlistItem) => (
+            <WishlistItem key={item.id} wishlistItemData={item} />
           ))}
         </List>
         <Button onClick={handleAddItem}>Adicionar item</Button>
