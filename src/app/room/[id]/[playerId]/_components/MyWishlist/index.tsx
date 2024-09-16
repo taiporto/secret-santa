@@ -5,16 +5,20 @@ import React from "react";
 import {
   User,
   WishlistItem as TWishlistItem,
+  Wishlist,
 } from "../../../../../../../types";
 import { WishlistItem } from "./components/WishlistItem";
 import { CreateWishlistItemModal } from "../CreateWishlistItemModal";
 
 type MyWishlistProps = {
   wishlist: User["wishlist"];
-  userId: User["id"];
+  // updateGifterWishlist: (wishlistItems: Wishlist) => void;
 };
 
-export const MyWishlist = ({ wishlist, userId }: MyWishlistProps) => {
+export const MyWishlist = ({
+  wishlist,
+}: // updateGifterWishlist,
+MyWishlistProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleAddItem = () => {
@@ -31,7 +35,11 @@ export const MyWishlist = ({ wishlist, userId }: MyWishlistProps) => {
         </List>
         <Button onClick={handleAddItem}>Adicionar item</Button>
       </Box>
-      <CreateWishlistItemModal isOpen={isOpen} onClose={onClose} />
+      <CreateWishlistItemModal
+        // updateWishlist={updateGifterWishlist}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
     </>
   );
 };

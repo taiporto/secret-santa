@@ -38,7 +38,6 @@ export const createOrUpdateWishlist = async ({
   if (prevWishlistError) {
     console.error(prevWishlistError);
     throw new Error("Error fetching previous wishlist");
-    return;
   }
 
   const prevWishlist = prevWishlistData[0].wishlist;

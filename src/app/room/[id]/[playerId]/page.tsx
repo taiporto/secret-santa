@@ -20,7 +20,8 @@ import { getRoomById } from "@/lib/api/rooms/getRoom";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RoomData } from "./_components/RoomData";
 import { MyWishlist } from "./_components/MyWishlist";
-import { WishlistItem } from "../../../../../types";
+import { User, WishlistItem } from "../../../../../types";
+import { createOrUpdateWishlist } from "@/lib/api/users/wishlist/createOrUpdateWishlist";
 
 export const revalidate = 0;
 
@@ -38,6 +39,10 @@ export default async function RoomPage({
 
   const giftee = await getUserById(+sortedPlayers["giftee_id"]);
   const room = await getRoomById(+params.id);
+
+  const updateGifterWishlist = (wishlistItems: User["wishlist"]) => {
+    createOrUpdateWishlist({ userId: player.id, wishlistItems });
+  };
 
   if (!room || !player) return <Heading>Algo deu errado :(</Heading>;
 
@@ -102,10 +107,7 @@ export default async function RoomPage({
                 <Heading as="h3" size="md" mb={4}>
                   Minha lista de presentes
                 </Heading>
-                <MyWishlist
-                  userId={+params.playerId}
-                  wishlist={player.wishlist}
-                />
+                <MyWishlist wishlist={player.wishlist} />
               </Box>
             </VStack>
           </HStack>

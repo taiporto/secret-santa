@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -8,31 +8,33 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  useDisclosure,
-  Input,
-  UseDisclosureProps,
   UseDisclosureReturn,
   SimpleGrid,
-  Flex,
-  FormControl,
-  FormLabel,
   IconButton,
-  Box,
-  HStack,
-  InputGroup,
-  InputLeftElement,
   VStack,
 } from "@chakra-ui/react";
-import { WishlistItem } from "../../../../../../../types";
-import { AddIcon, SmallCloseIcon } from "@chakra-ui/icons";
-import { AddItem } from "./components/AddItem";
+import { AddIcon } from "@chakra-ui/icons";
+import { ItemForm } from "./components/ItemForm";
+import { parseWishlistItems } from "./utils/parseWishlistItems";
+import { createOrUpdateWishlist } from "@/lib/api/users/wishlist/createOrUpdateWishlist";
+import { User, Wishlist } from "../../../../../../../types";
 
 export const CreateWishlistItemModal = ({
   isOpen,
   onClose,
-}: Pick<UseDisclosureReturn, "isOpen" | "onClose">) => {
+}: // updateWishlist,
+Pick<UseDisclosureReturn, "isOpen" | "onClose"> & {
+  updateWishlist?: (wishlist: Wishlist) => void;
+}) => {
   const [numberOfItems, setNumberOfItems] = useState(1);
-  const [items, setItems] = useState<WishlistItem[]>([]);
+
+  const handleAddItems = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.target as HTMLFormElement);
+    const wishlistItems = parseWishlistItems(formData);
+    console.log(wishlistItems);
+    // updateWishlist(wishlistItems);
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -41,32 +43,38 @@ export const CreateWishlistItemModal = ({
         <ModalHeader>Adicionar itens à lista de presentes</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <VStack gap={4}>
-            <SimpleGrid spacing="4">
-              {Array.from(Array(numberOfItems).keys()).map((number: number) => (
-                <AddItem
-                  key={number}
-                  number={number}
-                  setNumberOfItems={setNumberOfItems}
-                />
-              ))}
-            </SimpleGrid>
-            <IconButton
-              w="full"
-              aria-label="Adicionar item"
-              icon={<AddIcon />}
-              onClick={() => {
-                setNumberOfItems((prevNumberOfItems) => ++prevNumberOfItems);
-              }}
-            />
-          </VStack>
+          <form id="createWishlistItems" onSubmit={handleAddItems}>
+            <VStack gap={4}>
+              <SimpleGrid spacing="4">
+                {Array.from(Array(numberOfItems).keys()).map(
+                  (number: number) => (
+                    <ItemForm
+                      key={number}
+                      number={number}
+                      setNumberOfItems={setNumberOfItems}
+                    />
+                  )
+                )}
+              </SimpleGrid>
+              <IconButton
+                w="full"
+                aria-label="Adicionar item"
+                icon={<AddIcon />}
+                onClick={() => {
+                  setNumberOfItems((prevNumberOfItems) => ++prevNumberOfItems);
+                }}
+              />
+            </VStack>
+          </form>
         </ModalBody>
 
         <ModalFooter>
           <Button variant="ghost" mr={3} onClick={onClose}>
             Cancelar
           </Button>
-          <Button>Adicionar {items.length > 1 ? "itens" : "item"}</Button>
+          <Button type="submit" form="createWishlistItems">
+            Adicionar {numberOfItems > 1 ? "itens" : "item"}
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
