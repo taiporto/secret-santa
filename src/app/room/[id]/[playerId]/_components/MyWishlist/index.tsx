@@ -6,8 +6,8 @@ import {
   User,
   WishlistItem as TWishlistItem,
 } from "../../../../../../../types";
-import { CreateWishlistModal } from "../CreateWishlistModal";
 import { WishlistItem } from "./components/WishlistItem";
+import { CreateWishlistItemModal } from "../CreateWishlistItemModal";
 
 type MyWishlistProps = {
   wishlist: User["wishlist"];
@@ -31,7 +31,7 @@ export const MyWishlist = ({ wishlist, userId }: MyWishlistProps) => {
         </List>
         <Button onClick={handleAddItem}>Adicionar item</Button>
       </Box>
-      <CreateWishlistModal userId={userId} isOpen={isOpen} onClose={onClose} />
+      <CreateWishlistItemModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

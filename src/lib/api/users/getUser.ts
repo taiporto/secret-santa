@@ -1,5 +1,6 @@
 import "server-only";
 import { supabase } from "@/lib/supabase-config";
+import { User } from "../../../../types";
 
 export const getUserById = async (id: number) => {
   const { data, error } = await supabase.from("users").select().eq("id", id);
@@ -8,7 +9,7 @@ export const getUserById = async (id: number) => {
     throw new Error(error.message);
   }
 
-  return data[0];
+  return data[0] as User;
 };
 
 export const getUsersById = async (idArray: number[]) => {

@@ -56,22 +56,6 @@ export const GifteeCard = ({ giftee }: { giftee: User }) => {
                 {giftee.name}
               </Highlight>
             </Heading>
-
-            {giftee.wishlist && giftee.wishlist.length === 0 && (
-              <Accordion allowToggle>
-                <AccordionItem>
-                  <AccordionButton>
-                    Lista de presentes
-                    <AccordionIcon />
-                  </AccordionButton>
-                  <AccordionPanel>
-                    {giftee.wishlist.map((item, index) => {
-                      return <Box key={index}>{(item as any).title}</Box>;
-                    })}
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            )}
           </VStack>
         </CardBody>
       </Card>

@@ -1,6 +1,17 @@
 import React, { Suspense } from "react";
 
-import { Box, HStack, Heading, StackDivider, VStack } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  HStack,
+  Heading,
+  StackDivider,
+  VStack,
+} from "@chakra-ui/react";
 
 import { getSortedPlayersByGifterId } from "@/lib/api/sortedPlayers/getSortedPlayers";
 import { getUserById } from "@/lib/api/users/getUser";
@@ -9,6 +20,7 @@ import { getRoomById } from "@/lib/api/rooms/getRoom";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RoomData } from "./_components/RoomData";
 import { MyWishlist } from "./_components/MyWishlist";
+import { WishlistItem } from "../../../../../types";
 
 export const revalidate = 0;
 
@@ -56,12 +68,34 @@ export default async function RoomPage({
             justify="flex-start"
             align="flex-start"
           >
-            <Box>
+            <VStack gap={4} align="left">
               <Heading as="h3" size="md" mb={4}>
                 Quem você sorteou
               </Heading>
               <GifteeCard giftee={giftee} />
-            </Box>
+              <Heading as="h3" size="md" mb={4}>
+                Lista de presentes do sorteado
+              </Heading>
+              {giftee.wishlist && giftee.wishlist.length === 0 && (
+                <Accordion allowToggle>
+                  <AccordionItem>
+                    <AccordionButton>
+                      Lista de presentes
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel>
+                      {giftee.wishlist.map((item: WishlistItem) => {
+                        return (
+                          <Box key={(item as any).id}>
+                            {(item as any).title}
+                          </Box>
+                        );
+                      })}
+                    </AccordionPanel>
+                  </AccordionItem>
+                </Accordion>
+              )}
+            </VStack>
             <VStack align="left" divider={<StackDivider />} gap={6}>
               <RoomData room={room} />
               <Box>
