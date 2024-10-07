@@ -1,4 +1,4 @@
-import { WishlistItem } from "../../../../../../../../types";
+import { WishlistItem } from "../../../../../../types";
 
 export const parseWishlistItems = (formData: FormData): WishlistItem[] => {
   const newWishlistItemsMap = new Map();

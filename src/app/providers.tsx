@@ -2,6 +2,7 @@
 
 import { CacheProvider } from "@chakra-ui/next-js";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { Provider as JotaiProvider } from "jotai";
 
 import { Poppins } from "next/font/google";
 
@@ -32,7 +33,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
         `}
       </style>
       <CacheProvider>
-        <ChakraProvider theme={theme}>{children}</ChakraProvider>
+        <JotaiProvider>
+          <ChakraProvider theme={theme}>{children}</ChakraProvider>
+        </JotaiProvider>
       </CacheProvider>
     </>
   );

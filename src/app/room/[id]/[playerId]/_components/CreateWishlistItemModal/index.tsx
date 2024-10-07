@@ -12,28 +12,45 @@ import {
   SimpleGrid,
   IconButton,
   VStack,
+  Toast,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { ItemForm } from "./components/ItemForm";
-import { parseWishlistItems } from "./utils/parseWishlistItems";
-import { createOrUpdateWishlist } from "@/lib/api/users/wishlist/createOrUpdateWishlist";
-import { User, Wishlist } from "../../../../../../../types";
+import { handleSubmitWishlist } from "../../utils/handleSubmitWishlist";
+import { useParams } from "next/navigation";
+import { useCurrentPlayer } from "@/hooks/useCurrentPlayer";
 
 export const CreateWishlistItemModal = ({
   isOpen,
   onClose,
-}: // updateWishlist,
-Pick<UseDisclosureReturn, "isOpen" | "onClose"> & {
-  updateWishlist?: (wishlist: Wishlist) => void;
-}) => {
+}: Pick<UseDisclosureReturn, "isOpen" | "onClose">) => {
   const [numberOfItems, setNumberOfItems] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleAddItems = (event: FormEvent<HTMLFormElement>) => {
+  const { currentPlayer, setCurrentPlayer } = useCurrentPlayer();
+
+  const handleAddItems = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
     const formData = new FormData(event.target as HTMLFormElement);
-    const wishlistItems = parseWishlistItems(formData);
-    console.log(wishlistItems);
-    // updateWishlist(wishlistItems);
+    const result = await handleSubmitWishlist(formData, currentPlayer.id);
+
+    if (result?.length) {
+      setIsLoading(false);
+      setCurrentPlayer((prev) => ({
+        ...prev,
+        wishlist: [
+          ...prev.wishlist,
+          ...result,
+        ],
+      }));
+      Toast({
+        title: "Itens adicionados à lista de presentes",
+        status: "success",
+        duration: 2000,
+      });
+      onClose();
+    }
   };
 
   return (
@@ -72,7 +89,11 @@ Pick<UseDisclosureReturn, "isOpen" | "onClose"> & {
           <Button variant="ghost" mr={3} onClick={onClose}>
             Cancelar
           </Button>
-          <Button type="submit" form="createWishlistItems">
+          <Button
+            type="submit"
+            form="createWishlistItems"
+            isLoading={isLoading}
+          >
             Adicionar {numberOfItems > 1 ? "itens" : "item"}
           </Button>
         </ModalFooter>

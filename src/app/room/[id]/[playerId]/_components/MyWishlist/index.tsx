@@ -1,25 +1,26 @@
 "use client";
 
 import { Box, Button, List, useDisclosure } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   User,
   WishlistItem as TWishlistItem,
-  Wishlist,
 } from "../../../../../../../types";
 import { WishlistItem } from "./components/WishlistItem";
 import { CreateWishlistItemModal } from "../CreateWishlistItemModal";
+import { useCurrentPlayer } from "@/hooks/useCurrentPlayer";
 
 type MyWishlistProps = {
-  wishlist: User["wishlist"];
-  // updateGifterWishlist: (wishlistItems: Wishlist) => void;
+  player: User;
 };
 
-export const MyWishlist = ({
-  wishlist,
-}: // updateGifterWishlist,
-MyWishlistProps) => {
+export const MyWishlist = ({ player }: MyWishlistProps) => {
+  const { setCurrentPlayer, currentPlayer } = useCurrentPlayer();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    setCurrentPlayer(player);
+  }, []);
 
   const handleAddItem = () => {
     onOpen();
@@ -29,14 +30,13 @@ MyWishlistProps) => {
     <>
       <Box>
         <List>
-          {wishlist?.map((item: TWishlistItem) => (
+          {currentPlayer.wishlist?.map((item: TWishlistItem) => (
             <WishlistItem key={item.id} wishlistItemData={item} />
           ))}
         </List>
         <Button onClick={handleAddItem}>Adicionar item</Button>
       </Box>
       <CreateWishlistItemModal
-        // updateWishlist={updateGifterWishlist}
         isOpen={isOpen}
         onClose={onClose}
       />

@@ -42,8 +42,6 @@ export const createOrUpdateWishlist = async ({
 
   const prevWishlist = prevWishlistData[0].wishlist;
 
-  console.log(!prevWishlist);
-
   if (!prevWishlist) {
     return createWishlist(wishlistItems, userId);
   }

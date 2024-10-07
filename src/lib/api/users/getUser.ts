@@ -37,3 +37,19 @@ export const getUserByName = async (name: string) => {
 
   return data[0];
 };
+
+export const initChangeListener = () => {
+  const changes = supabase
+    .channel("schema-db-changes")
+    .on(
+      "postgres_changes",
+      {
+        event: "UPDATE", // Listen only to UPDATEs
+        schema: "public",
+      },
+      (payload) => console.log(payload)
+    )
+    .subscribe();
+
+  return changes;
+};
