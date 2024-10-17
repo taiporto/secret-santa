@@ -33,7 +33,6 @@ export default async function RoomPage({
 }) {
   const player = await getUserById(+params.playerId);
   const sortedPlayers = await getSortedPlayersByGifterId(+params.playerId);
-  const playersWishlist = await getAllItemsByUserId(+params.playerId);
 
   if (!sortedPlayers) {
     return <Heading>Erro ao carregar página :(</Heading>;
@@ -41,6 +40,11 @@ export default async function RoomPage({
 
   const giftee = await getUserById(+sortedPlayers["giftee_id"]);
   const room = await getRoomById(+params.id);
+
+  const playersWishlist = await getAllItemsByUserId(+params.playerId);
+  const gifteesWishlist = await getAllItemsByUserId(
+    +sortedPlayers["giftee_id"]
+  );
 
   if (!room || !player) return <Heading>Algo deu errado :(</Heading>;
 
@@ -59,66 +63,62 @@ export default async function RoomPage({
           },
         ]}
       />
-      <Suspense fallback={<p>Carregando...</p>}>
-        <VStack>
-          <Suspense
-            fallback={
-              <Heading as="h2" size="lg" textAlign="center">
-                Oi, <SkeletonText noOfLines={1} w="100px" />
-              </Heading>
-            }
-          >
+      <VStack>
+        <Suspense
+          fallback={
             <Heading as="h2" size="lg" textAlign="center">
-              Oi, {player.name}!
+              Oi, <SkeletonText noOfLines={1} w="100px" />
             </Heading>
-          </Suspense>
-          <HStack
-            my={16}
-            gap={6}
-            divider={<StackDivider />}
-            justify="flex-start"
-            align="flex-start"
-          >
-            <VStack gap={4} align="left">
+          }
+        >
+          <Heading as="h2" size="lg" textAlign="center">
+            Oi, {player.name}!
+          </Heading>
+        </Suspense>
+        <HStack
+          my={16}
+          gap={6}
+          divider={<StackDivider />}
+          justify="flex-start"
+          align="flex-start"
+        >
+          <VStack gap={4} align="left">
+            <Heading as="h3" size="md" mb={4}>
+              Quem você sorteou
+            </Heading>
+            <GifteeCard giftee={giftee} />
+            <Heading as="h3" size="md" mb={4}>
+              Lista de presentes do sorteado
+            </Heading>
+            {gifteesWishlist?.length === 0 && (
+              <Accordion allowToggle>
+                <AccordionItem>
+                  <AccordionButton>
+                    Lista de presentes
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel>
+                    {gifteesWishlist.map((item: WishlistItem) => {
+                      return (
+                        <Box key={(item as any).id}>{(item as any).title}</Box>
+                      );
+                    })}
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
+            )}
+          </VStack>
+          <VStack align="left" divider={<StackDivider />} gap={6}>
+            <RoomData room={room} />
+            <Box>
               <Heading as="h3" size="md" mb={4}>
-                Quem você sorteou
+                Minha lista de presentes
               </Heading>
-              <GifteeCard giftee={giftee} />
-              <Heading as="h3" size="md" mb={4}>
-                Lista de presentes do sorteado
-              </Heading>
-              {giftee.wishlist && giftee.wishlist.length === 0 && (
-                <Accordion allowToggle>
-                  <AccordionItem>
-                    <AccordionButton>
-                      Lista de presentes
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel>
-                      {giftee.wishlist.map((item: WishlistItem) => {
-                        return (
-                          <Box key={(item as any).id}>
-                            {(item as any).title}
-                          </Box>
-                        );
-                      })}
-                    </AccordionPanel>
-                  </AccordionItem>
-                </Accordion>
-              )}
-            </VStack>
-            <VStack align="left" divider={<StackDivider />} gap={6}>
-              <RoomData room={room} />
-              <Box>
-                <Heading as="h3" size="md" mb={4}>
-                  Minha lista de presentes
-                </Heading>
-                <MyWishlist initialWishlist={playersWishlist} />
-              </Box>
-            </VStack>
-          </HStack>
-        </VStack>
-      </Suspense>
+              <MyWishlist initialWishlist={playersWishlist} />
+            </Box>
+          </VStack>
+        </HStack>
+      </VStack>
     </>
   );
 }
