@@ -22,7 +22,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RoomData } from "./_components/RoomData";
 import { MyWishlist } from "./_components/MyWishlist";
 import { WishlistItem } from "../../../../../types";
-import { getAllItemsByUserId } from "@/lib/api/users/wishlist/getAllItemsByUserId";
+import { getAllWishlistItemsByUserId } from "@/lib/api/users/wishlist/getAllWishlistItemsByUserId";
 
 export const revalidate = 0;
 
@@ -41,8 +41,8 @@ export default async function RoomPage({
   const giftee = await getUserById(+sortedPlayers["giftee_id"]);
   const room = await getRoomById(+params.id);
 
-  const playersWishlist = await getAllItemsByUserId(+params.playerId);
-  const gifteesWishlist = await getAllItemsByUserId(
+  const playersWishlist = await getAllWishlistItemsByUserId(+params.playerId);
+  const gifteesWishlist = await getAllWishlistItemsByUserId(
     +sortedPlayers["giftee_id"]
   );
 
@@ -108,7 +108,7 @@ export default async function RoomPage({
               </Accordion>
             )}
           </VStack>
-          <VStack align="left" divider={<StackDivider />} gap={6}>
+          <VStack align="left" divider={<StackDivider />} gap={6} minW="60%">
             <RoomData room={room} />
             <Box>
               <Heading as="h3" size="md" mb={4}>

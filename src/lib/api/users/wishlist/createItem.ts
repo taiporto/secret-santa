@@ -1,5 +1,5 @@
 import "server-only";
-import { User, WishlistItem } from "../../../../../types";
+import { User, Wishlist, WishlistItem } from "../../../../../types";
 import { supabase } from "@/lib/supabase-config";
 
 type CreateWishlistItemProps = {
@@ -30,7 +30,7 @@ export const createWishlistItem = async ({
 
 export const createWishlistItems = async ({
   wishlistItems,
-}: CreateWishlistItemSProps) => {
+}: CreateWishlistItemSProps): Promise<Wishlist> => {
   const { data, error } = await supabase
     .from("wishlist_items")
     .insert([...wishlistItems])
@@ -41,5 +41,5 @@ export const createWishlistItems = async ({
     throw new Error(error.message);
   }
 
-  return data[0];
+  return data;
 };

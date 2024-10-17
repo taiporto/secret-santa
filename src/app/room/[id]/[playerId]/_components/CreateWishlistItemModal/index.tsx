@@ -27,15 +27,15 @@ export const CreateWishlistItemModal = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const { playerId } = useParams();
-  const { setWishlist } = useWishlist();
+  const { setNewWishlistItems } = useWishlist();
 
   const handleAddItems = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
     const formData = new FormData(event.target as HTMLFormElement);
-    const wishlistItems = parseWishlistItems(formData, +playerId);
+    const newItems = parseWishlistItems(formData, +playerId);
 
-    setWishlist(wishlistItems, () => {
+    setNewWishlistItems(newItems, () => {
       setIsLoading(false);
       onClose();
     });

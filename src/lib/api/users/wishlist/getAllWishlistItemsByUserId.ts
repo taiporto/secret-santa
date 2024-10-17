@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase-config";
 import { User } from "../../../../../types";
 
-export const getAllItemsByUserId = async (userId: User["id"]) => {
+export const getAllWishlistItemsByUserId = async (userId: User["id"]) => {
   const { data, error } = await supabase
     .from("wishlist_items")
     .select()

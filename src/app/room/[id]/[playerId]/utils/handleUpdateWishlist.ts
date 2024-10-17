@@ -3,12 +3,12 @@
 import { createWishlistItems } from "@/lib/api/users/wishlist/createItem";
 import { Wishlist } from "../../../../../../types";
 
-export const handleSubmitWishlist = async (wishlistItems: Wishlist) => {
+export const handleUpdateWishlist = async (wishlistItems: Wishlist) => {
   const result = await createWishlistItems({
     wishlistItems,
   });
 
-  if (!result || !result.length) {
+  if (!result?.length) {
     console.error("Error updating wishlist");
   }
 

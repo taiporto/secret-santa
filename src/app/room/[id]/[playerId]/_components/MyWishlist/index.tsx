@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, Button, List, Skeleton, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Divider,
+  List,
+  Skeleton,
+  useDisclosure,
+} from "@chakra-ui/react";
 import {
   WishlistItem as TWishlistItem,
   Wishlist,
@@ -15,9 +22,7 @@ export const MyWishlist = ({
 }: {
   initialWishlist: Wishlist;
 }) => {
-  const { getWishlist } = useWishlist(initialWishlist);
-
-  const [wishlist] = useState<Wishlist>(getWishlist());
+  const { wishlist } = useWishlist(initialWishlist);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -29,12 +34,19 @@ export const MyWishlist = ({
     <>
       <Box>
         <Skeleton isLoaded={!!wishlist}>
-          <List>
+          <List mb="6">
             {wishlist?.map((item: TWishlistItem) => (
-              <WishlistItem key={item.id} wishlistItemData={item} />
+              <Box key={item.id}>
+                <Box my="4">
+                  <WishlistItem wishlistItemData={item} />
+                </Box>
+                <Divider />
+              </Box>
             ))}
           </List>
-          <Button onClick={handleAddItem}>Adicionar item</Button>
+          <Button float="right" onClick={handleAddItem}>
+            Adicionar item
+          </Button>
         </Skeleton>
       </Box>
       <CreateWishlistItemModal isOpen={isOpen} onClose={onClose} />
