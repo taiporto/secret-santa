@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { WishlistItem as TWishlistItem } from "../../../../../../../../types";
 import { Flex, Heading, IconButton, Link, Text } from "@chakra-ui/react";
@@ -7,8 +9,10 @@ import { useWishlist } from "@/hooks/useWihslist";
 
 export const WishlistItem = ({
   wishlistItemData,
+  allowDelete = true,
 }: {
   wishlistItemData: TWishlistItem;
+  allowDelete?: boolean;
 }) => {
   const { removeWishlistItem } = useWishlist();
 
@@ -37,14 +41,16 @@ export const WishlistItem = ({
             : "-"}
         </Text>
       </Flex>
-      <IconButton
-        aria-label="Remover item"
-        colorScheme="red"
-        variant="ghost"
-        size="sm"
-        icon={<DeleteIcon />}
-        onClick={handleDeleteClick}
-      />
+      {allowDelete && (
+        <IconButton
+          aria-label="Remover item"
+          colorScheme="red"
+          variant="ghost"
+          size="sm"
+          icon={<DeleteIcon />}
+          onClick={handleDeleteClick}
+        />
+      )}
     </Flex>
   );
 };

@@ -7,6 +7,7 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Divider,
   HStack,
   Heading,
   SkeletonText,
@@ -21,8 +22,9 @@ import { getRoomById } from "@/lib/api/rooms/getRoom";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RoomData } from "./_components/RoomData";
 import { MyWishlist } from "./_components/MyWishlist";
-import { WishlistItem } from "../../../../../types";
+import { WishlistItem as TWishlistItem } from "../../../../../types";
 import { getAllWishlistItemsByUserId } from "@/lib/api/users/wishlist/getAllWishlistItemsByUserId";
+import { WishlistItem } from "./_components/MyWishlist/components/WishlistItem";
 
 export const revalidate = 0;
 
@@ -87,20 +89,25 @@ export default async function RoomPage({
               Quem você sorteou
             </Heading>
             <GifteeCard giftee={giftee} />
-            <Heading as="h3" size="md" mb={4}>
-              Lista de presentes do sorteado
-            </Heading>
-            {gifteesWishlist?.length === 0 && (
+            {!!gifteesWishlist?.length && (
               <Accordion allowToggle>
                 <AccordionItem>
                   <AccordionButton>
-                    Lista de presentes
+                    Lista de presentes do sorteado
                     <AccordionIcon />
                   </AccordionButton>
                   <AccordionPanel>
-                    {gifteesWishlist.map((item: WishlistItem) => {
+                    {gifteesWishlist.map((item: TWishlistItem) => {
                       return (
-                        <Box key={(item as any).id}>{(item as any).title}</Box>
+                        <Box key={item.id}>
+                          <Box my="4">
+                            <WishlistItem
+                              wishlistItemData={item}
+                              allowDelete={false}
+                            />
+                          </Box>
+                          <Divider />
+                        </Box>
                       );
                     })}
                   </AccordionPanel>
