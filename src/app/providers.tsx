@@ -7,6 +7,7 @@ import { Provider as JotaiProvider } from "jotai";
 import { Poppins } from "next/font/google";
 
 import { colors } from "@/theme";
+import { globalStore } from "@/jotai/globalStore";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -33,7 +34,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         `}
       </style>
       <CacheProvider>
-        <JotaiProvider>
+        <JotaiProvider store={globalStore}>
           <ChakraProvider theme={theme}>{children}</ChakraProvider>
         </JotaiProvider>
       </CacheProvider>

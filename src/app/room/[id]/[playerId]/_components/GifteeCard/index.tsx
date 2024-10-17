@@ -1,19 +1,13 @@
 "use client";
 
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
   Button,
   Card,
   CardBody,
   CardHeader,
-  Center,
   Heading,
   Highlight,
+  Skeleton,
   VStack,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -43,19 +37,21 @@ export const GifteeCard = ({ giftee }: { giftee: User }) => {
         </CardHeader>
         <CardBody>
           <VStack gap={8}>
-            <Heading as="h3" size="md" lineHeight="tall" textAlign="center">
-              <Highlight
-                query={giftee.name}
-                styles={{
-                  px: "2",
-                  py: "1",
-                  rounded: "full",
-                  bg: "secondary.200",
-                }}
-              >
-                {giftee.name}
-              </Highlight>
-            </Heading>
+            <Skeleton isLoaded={!!giftee.name}>
+              <Heading as="h3" size="md" lineHeight="tall" textAlign="center">
+                <Highlight
+                  query={giftee.name}
+                  styles={{
+                    px: "2",
+                    py: "1",
+                    rounded: "full",
+                    bg: "secondary.200",
+                  }}
+                >
+                  {giftee.name}
+                </Highlight>
+              </Heading>
+            </Skeleton>
           </VStack>
         </CardBody>
       </Card>

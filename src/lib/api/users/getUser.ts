@@ -3,7 +3,7 @@ import { supabase } from "@/lib/supabase-config";
 import { User } from "../../../../types";
 
 export const getUserById = async (id: number) => {
-  const { data, error } = await supabase.from("users").select().eq("id", id);
+  const { data, error } = await supabase.from("users").select("*").eq("id", id);
 
   if (error) {
     throw new Error(error.message);
@@ -36,20 +36,4 @@ export const getUserByName = async (name: string) => {
   }
 
   return data[0];
-};
-
-export const initChangeListener = () => {
-  const changes = supabase
-    .channel("schema-db-changes")
-    .on(
-      "postgres_changes",
-      {
-        event: "UPDATE", // Listen only to UPDATEs
-        schema: "public",
-      },
-      (payload) => console.log(payload)
-    )
-    .subscribe();
-
-  return changes;
 };

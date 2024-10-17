@@ -9,6 +9,7 @@ import {
   Box,
   HStack,
   Heading,
+  SkeletonText,
   StackDivider,
   VStack,
 } from "@chakra-ui/react";
@@ -21,6 +22,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RoomData } from "./_components/RoomData";
 import { MyWishlist } from "./_components/MyWishlist";
 import { WishlistItem } from "../../../../../types";
+import { getAllItemsByUserId } from "@/lib/api/users/wishlist/getAllItemsByUserId";
 
 export const revalidate = 0;
 
@@ -31,6 +33,7 @@ export default async function RoomPage({
 }) {
   const player = await getUserById(+params.playerId);
   const sortedPlayers = await getSortedPlayersByGifterId(+params.playerId);
+  const playersWishlist = await getAllItemsByUserId(+params.playerId);
 
   if (!sortedPlayers) {
     return <Heading>Erro ao carregar página :(</Heading>;
@@ -58,9 +61,17 @@ export default async function RoomPage({
       />
       <Suspense fallback={<p>Carregando...</p>}>
         <VStack>
-          <Heading as="h2" size="lg" textAlign="center">
-            Oi, {player.name}!
-          </Heading>
+          <Suspense
+            fallback={
+              <Heading as="h2" size="lg" textAlign="center">
+                Oi, <SkeletonText noOfLines={1} w="100px" />
+              </Heading>
+            }
+          >
+            <Heading as="h2" size="lg" textAlign="center">
+              Oi, {player.name}!
+            </Heading>
+          </Suspense>
           <HStack
             my={16}
             gap={6}
@@ -102,7 +113,7 @@ export default async function RoomPage({
                 <Heading as="h3" size="md" mb={4}>
                   Minha lista de presentes
                 </Heading>
-                <MyWishlist player={player} />
+                <MyWishlist initialWishlist={playersWishlist} />
               </Box>
             </VStack>
           </HStack>

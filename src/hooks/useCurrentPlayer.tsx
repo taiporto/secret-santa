@@ -1,20 +1,23 @@
-// import { currentPlayerAtom } from "@/jotai/atoms/currentPlayer";
-import { atom } from "jotai";
+import { useStore } from "jotai";
+import { useEffect } from "react";
+import { getUserById } from "@/lib/api/users/getUser";
+import { currentPlayerAtom } from "@/jotai/atoms/currentPlayer";
 import { User } from "../../types";
-import { useAtom } from "jotai";
 
-const currentPlayerAtom = atom({
-  id: 0,
-  name: "",
-  created_at: "",
-  wishlist: [],
-} as User);
+export const useCurrentPlayer = (userId: User["id"]) => {
+  const globalStore = useStore();
 
-export const useCurrentPlayer = () => {
-  const [currentPlayer, setCurrentPlayer] = useAtom(currentPlayerAtom);
+  useEffect(() => {
+    getUserById(userId).then((user) => {
+      globalStore.set(currentPlayerAtom, user);
+    });
+  }, [globalStore, userId]);
+
+  const getCurrentPlayer = () => {
+    return globalStore.get(currentPlayerAtom);
+  };
 
   return {
-    currentPlayer,
-    setCurrentPlayer,
+    getCurrentPlayer,
   };
 };

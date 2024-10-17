@@ -12,13 +12,12 @@ import {
   SimpleGrid,
   IconButton,
   VStack,
-  Toast,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { ItemForm } from "./components/ItemForm";
-import { handleSubmitWishlist } from "../../utils/handleSubmitWishlist";
+import { parseWishlistItems } from "../../utils/parseWishlistItems";
+import { useWishlist } from "@/hooks/useWihslist";
 import { useParams } from "next/navigation";
-import { useCurrentPlayer } from "@/hooks/useCurrentPlayer";
 
 export const CreateWishlistItemModal = ({
   isOpen,
@@ -27,30 +26,19 @@ export const CreateWishlistItemModal = ({
   const [numberOfItems, setNumberOfItems] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { currentPlayer, setCurrentPlayer } = useCurrentPlayer();
+  const { playerId } = useParams();
+  const { setWishlist } = useWishlist();
 
   const handleAddItems = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
     const formData = new FormData(event.target as HTMLFormElement);
-    const result = await handleSubmitWishlist(formData, currentPlayer.id);
+    const wishlistItems = parseWishlistItems(formData, +playerId);
 
-    if (result?.length) {
+    setWishlist(wishlistItems, () => {
       setIsLoading(false);
-      setCurrentPlayer((prev) => ({
-        ...prev,
-        wishlist: [
-          ...prev.wishlist,
-          ...result,
-        ],
-      }));
-      Toast({
-        title: "Itens adicionados à lista de presentes",
-        status: "success",
-        duration: 2000,
-      });
       onClose();
-    }
+    });
   };
 
   return (
