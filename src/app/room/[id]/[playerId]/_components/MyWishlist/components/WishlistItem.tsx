@@ -3,15 +3,20 @@ import { WishlistItem as TWishlistItem } from "../../../../../../../../types";
 import { Flex, Heading, IconButton, Link, Text } from "@chakra-ui/react";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { useWishlist } from "@/hooks/useWihslist";
 
 export const WishlistItem = ({
   wishlistItemData,
 }: {
   wishlistItemData: TWishlistItem;
 }) => {
+  const { removeWishlistItem } = useWishlist();
+
   const handleDeleteClick = () => {
-    console.log("delete!");
+    removeWishlistItem(wishlistItemData.id);
   };
+
+  console.log(wishlistItemData);
   return (
     <Flex w="100%" gap={4} align="center">
       <Flex w="100%" justify="space-between" gap={2} align="center">
@@ -27,8 +32,8 @@ export const WishlistItem = ({
           </Heading>
         )}
         <Text>
-          {typeof wishlistItemData.price === "number"
-            ? formatCurrency(wishlistItemData.price)
+          {wishlistItemData.price
+            ? formatCurrency(+wishlistItemData.price)
             : "-"}
         </Text>
       </Flex>

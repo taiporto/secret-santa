@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="pt-br">
       <body>
         <Providers>
-          <VStack p={4} pb={6}>
+          <VStack w="100%" p={4} pb={6}>
             <Heading as="h1">Amigo Oculto</Heading>
             {children}
             <Analytics />

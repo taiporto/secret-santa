@@ -49,7 +49,7 @@ export default async function RoomPage({
   if (!room || !player) return <Heading>Algo deu errado :(</Heading>;
 
   return (
-    <>
+    <Box maxW={{ base: "80%", lg: "80%" }} marginX={"auto"}>
       <Breadcrumbs
         paths={[
           {
@@ -63,7 +63,7 @@ export default async function RoomPage({
           },
         ]}
       />
-      <VStack>
+      <VStack mt={12}>
         <Suspense
           fallback={
             <Heading as="h2" size="lg" textAlign="center">
@@ -108,7 +108,13 @@ export default async function RoomPage({
               </Accordion>
             )}
           </VStack>
-          <VStack align="left" divider={<StackDivider />} gap={6} minW="60%">
+          <VStack
+            align="left"
+            divider={<StackDivider />}
+            gap={6}
+            minW="60%"
+            maxW="60%"
+          >
             <RoomData room={room} />
             <Box>
               <Heading as="h3" size="md" mb={4}>
@@ -119,6 +125,6 @@ export default async function RoomPage({
           </VStack>
         </HStack>
       </VStack>
-    </>
+    </Box>
   );
 }

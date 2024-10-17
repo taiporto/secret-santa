@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Button,
@@ -44,7 +44,10 @@ export const MyWishlist = ({
               </Box>
             ))}
           </List>
-          <Button float="right" onClick={handleAddItem}>
+          <Button
+            float={wishlist.length ? "right" : undefined}
+            onClick={handleAddItem}
+          >
             Adicionar item
           </Button>
         </Skeleton>

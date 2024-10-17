@@ -12,7 +12,7 @@ export default async function RoomPage({ params }: { params: { id: string } }) {
     return <Heading>Something went wrong</Heading>;
   }
   return (
-    <Box>
+    <Box margin="auto" w={{ base: "90%", lg: "60%" }}>
       <Breadcrumbs
         paths={[
           {
