@@ -17,7 +17,7 @@ export const Wrapper = ({
 }) => {
   const { windowWidth } = useWindowWidth();
   return (windowWidth || 0) < breakpoints.md && wishlistHasLength ? (
-    <Accordion allowToggle>
+    <Accordion defaultIndex={0} allowToggle>
       <AccordionItem>
         <AccordionButton>
           Ver a lista <AccordionIcon />

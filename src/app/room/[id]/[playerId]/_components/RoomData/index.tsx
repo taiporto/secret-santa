@@ -1,6 +1,7 @@
 import {
   Box,
   Heading,
+  Hide,
   Link,
   SkeletonText,
   Stack,
@@ -14,7 +15,7 @@ import { Room } from "../../../../../../../types";
 
 export const RoomData = ({ room }: { room: Room }) => {
   return (
-    <Stack divider={<StackDivider />} gap={2}>
+    <Stack gap={2} divider={<StackDivider />}>
       <Box textAlign={{ base: "center", md: "left" }}>
         <Heading as="h4" size="xs" textTransform="uppercase">
           Nome

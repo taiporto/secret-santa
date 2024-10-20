@@ -1,5 +1,5 @@
 import React from "react";
-import { Room, User as UserType } from "../../../../../../types";
+import { Room, User } from "../../../../../../types";
 import {
   Center,
   Divider,
@@ -9,26 +9,23 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { ShareButtons } from "../ShareButtons";
-import { getUsersById } from "@/lib/api/users/getUser";
-import { PlayerLink } from "../PlayerTable/components/PlayerLink";
+import { PlayerLink } from "./components/PlayerLink";
 import { generatePlayerLink } from "@/utils/generatePlayerLink";
 
 type PlayerListProps = {
-  playerIds: UserType["id"][];
+  players: User[];
   roomId: Room["id"];
 };
 
-export const PlayerList = async ({ playerIds, roomId }: PlayerListProps) => {
-  const players = await getUsersById(playerIds);
-
+export const PlayerList = ({ players, roomId }: PlayerListProps) => {
   return (
-    <VStack spacing={6}>
-      <List spacing={4} maxW="100%">
+    <VStack gap={{ base: 6, md: 12 }}>
+      <List spacing={4} w={{ base: "100%", md: "80%" }} p={{ base: 4, md: 0 }}>
         {players.map((player) => {
           const playerLink = generatePlayerLink(player.id, roomId);
           return (
             <ListItem key={player.id}>
-              <Heading as="h4" size="sm">
+              <Heading as="h4" size={["sm", "md"]}>
                 {player.name}
               </Heading>
               <PlayerLink playerLink={playerLink} />

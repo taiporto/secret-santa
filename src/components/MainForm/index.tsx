@@ -46,11 +46,9 @@ export const MainForm = ({ handleSubmit }: MainFromProps) => {
     try {
       const roomId = await handleSubmit(data);
       if (!roomId) {
-        console.error("Room not created - Something went wrong");
         throw new Error("Room not created - Something went wrong");
       }
       router.push(`/room/${roomId}`);
-      setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
       console.error(err);
