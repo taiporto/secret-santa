@@ -42,7 +42,7 @@ export const ItemForm = ({
                 <Input
                   type="number"
                   name={`item${number}-price`}
-                  defaultValue={0}
+                  placeholder={"0"}
                   step={0.5}
                 />
               </InputGroup>

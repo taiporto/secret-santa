@@ -8,6 +8,7 @@ import {
   List,
   Skeleton,
   useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
 import {
   WishlistItem as TWishlistItem,
@@ -16,6 +17,7 @@ import {
 import { WishlistItem } from "./components/WishlistItem";
 import { CreateWishlistItemModal } from "../CreateWishlistItemModal";
 import { useWishlist } from "@/hooks/useWihslist";
+import { Wrapper } from "./components/Wrapper";
 
 export const MyWishlist = ({
   initialWishlist,
@@ -32,26 +34,30 @@ export const MyWishlist = ({
 
   return (
     <>
-      <Box>
-        <Skeleton isLoaded={!!wishlist}>
-          <List mb="6">
-            {wishlist?.map((item: TWishlistItem) => (
-              <Box key={item.id}>
-                <Box my="4">
-                  <WishlistItem wishlistItemData={item} />
+      <VStack w="100%">
+        <Wrapper wishlistHasLength={!!wishlist.length}>
+          <Skeleton isLoaded={!!wishlist}>
+            <List>
+              {wishlist?.map((item: TWishlistItem) => (
+                <Box key={item.id}>
+                  <Box my="4">
+                    <WishlistItem wishlistItemData={item} />
+                  </Box>
+                  <Divider />
                 </Box>
-                <Divider />
-              </Box>
-            ))}
-          </List>
-          <Button
-            float={wishlist.length ? "right" : undefined}
-            onClick={handleAddItem}
-          >
-            Adicionar item
-          </Button>
-        </Skeleton>
-      </Box>
+              ))}
+            </List>
+          </Skeleton>
+        </Wrapper>
+        <Button
+          mt={4}
+          marginX={{ base: "auto", md: 0 }}
+          float={wishlist.length ? "right" : undefined}
+          onClick={handleAddItem}
+        >
+          Adicionar item
+        </Button>
+      </VStack>
       <CreateWishlistItemModal isOpen={isOpen} onClose={onClose} />
     </>
   );

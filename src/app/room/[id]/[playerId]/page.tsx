@@ -1,34 +1,19 @@
 import React, { Suspense } from "react";
 
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Divider,
-  HStack,
-  Heading,
-  SkeletonText,
-  StackDivider,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Heading, SkeletonText, VStack } from "@chakra-ui/react";
 
 import { getSortedPlayersByGifterId } from "@/lib/api/sortedPlayers/getSortedPlayers";
 import { getUserById } from "@/lib/api/users/getUser";
-import { GifteeCard } from "./_components/GifteeCard";
 import { getRoomById } from "@/lib/api/rooms/getRoom";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { RoomData } from "./_components/RoomData";
-import { MyWishlist } from "./_components/MyWishlist";
-import { WishlistItem as TWishlistItem } from "../../../../../types";
 import { getAllWishlistItemsByUserId } from "@/lib/api/users/wishlist/getAllWishlistItemsByUserId";
-import { WishlistItem } from "./_components/MyWishlist/components/WishlistItem";
+import { GifteeData } from "./_components/GifteeData";
+import { GifterData } from "./_components/GifterData";
+import { ContentWrapper } from "./_components/ContentWrapper";
 
 export const revalidate = 0;
 
-export default async function RoomPage({
+export default async function UserPage({
   params,
 }: {
   params: { playerId: string; id: string };
@@ -77,60 +62,14 @@ export default async function RoomPage({
             Oi, {player.name}!
           </Heading>
         </Suspense>
-        <HStack
-          my={16}
-          gap={6}
-          divider={<StackDivider />}
-          justify="flex-start"
-          align="flex-start"
-        >
-          <VStack gap={4} align="left">
-            <Heading as="h3" size="md" mb={4}>
-              Quem você sorteou
-            </Heading>
-            <GifteeCard giftee={giftee} />
-            {!!gifteesWishlist?.length && (
-              <Accordion allowToggle>
-                <AccordionItem>
-                  <AccordionButton>
-                    Lista de presentes do sorteado
-                    <AccordionIcon />
-                  </AccordionButton>
-                  <AccordionPanel>
-                    {gifteesWishlist.map((item: TWishlistItem) => {
-                      return (
-                        <Box key={item.id}>
-                          <Box my="4">
-                            <WishlistItem
-                              wishlistItemData={item}
-                              allowDelete={false}
-                            />
-                          </Box>
-                          <Divider />
-                        </Box>
-                      );
-                    })}
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            )}
-          </VStack>
-          <VStack
-            align="left"
-            divider={<StackDivider />}
-            gap={6}
-            minW="60%"
-            maxW="60%"
-          >
-            <RoomData room={room} />
-            <Box>
-              <Heading as="h3" size="md" mb={4}>
-                Minha lista de presentes
-              </Heading>
-              <MyWishlist initialWishlist={playersWishlist} />
-            </Box>
-          </VStack>
-        </HStack>
+        <ContentWrapper
+          gifteeData={
+            <GifteeData giftee={giftee} gifteesWishlist={gifteesWishlist} />
+          }
+          gifterData={
+            <GifterData room={room} playersWishlist={playersWishlist} />
+          }
+        />
       </VStack>
     </Box>
   );

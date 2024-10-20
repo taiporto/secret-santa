@@ -20,12 +20,15 @@ export const WishlistItem = ({
     removeWishlistItem(wishlistItemData.id);
   };
 
-  console.log(wishlistItemData);
   return (
     <Flex w="100%" gap={4} align="center">
       <Flex w="100%" justify="space-between" gap={2} align="center">
         {wishlistItemData.link ? (
-          <Link href={wishlistItemData.link} isExternal>
+          <Link
+            href={wishlistItemData.link}
+            textDecoration={"underline"}
+            isExternal
+          >
             <Heading size="xs" as="h5">
               {wishlistItemData.name}
             </Heading>

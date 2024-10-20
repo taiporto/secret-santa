@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Heading, StackDivider, Text, VStack } from "@chakra-ui/react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { getRoomById } from "@/lib/api/rooms/getRoom";
 import { EditPriceLimitInPlace } from "./_components/EditPriceLimitInPlace";
@@ -23,23 +23,23 @@ export default async function RoomPage({ params }: { params: { id: string } }) {
         ]}
       />
       <Box my={8}>
-        <VStack my={6} gap={12}>
+        <VStack my={6} gap={2} divider={<StackDivider />}>
           <VStack align="center">
-            <Text>Evento:</Text>
+            <Text>Evento</Text>
             <Heading as="h2" size="lg" textAlign="center">
               {room.name}
             </Heading>
           </VStack>
           <VStack align="center">
-            <Text>Limite de valor:</Text>
+            <Text>Limite de valor</Text>
             <EditPriceLimitInPlace room={room} />
           </VStack>
-          <VStack align="center" gap={6}>
-            <Heading as="h3" size="md">
-              Participantes
-            </Heading>
-            <Players roomId={room.id} players={room.players} />
-          </VStack>
+        </VStack>
+        <VStack align="center" mt={12} gap={6}>
+          <Heading as="h3" size="md">
+            Participantes
+          </Heading>
+          <Players roomId={room.id} players={room.players} />
         </VStack>
       </Box>
     </Box>

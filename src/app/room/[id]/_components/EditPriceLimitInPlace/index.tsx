@@ -58,6 +58,8 @@ export const EditPriceLimitInPlace = ({ room }: { room: Room }) => {
     <Editable
       submitOnBlur={true}
       borderRadius={6}
+      fontSize={"lg"}
+      fontWeight={"bold"}
       color={room.price_limit === 0 ? "gray.400" : "text.800"}
       defaultValue={
         room.price_limit ? formatCurrency(+room.price_limit) : NO_DEFINED_VALUE

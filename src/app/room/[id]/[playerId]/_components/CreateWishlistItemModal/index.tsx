@@ -44,7 +44,7 @@ export const CreateWishlistItemModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent maxW={{ base: "90%", md: "40%" }}>
         <ModalHeader>Adicionar itens à lista de presentes</ModalHeader>
         <ModalCloseButton />
         <ModalBody>

@@ -2,13 +2,15 @@ import { User, WishlistItem } from "../../../../../../types";
 
 const parseUrl = (link: string): string => {
   try {
-    return new URL(link).href;
+    const url = new URL(link).href;
+    return url;
   } catch (e) {
-    if ((e as TypeError).message === "Invalid URL") {
-      return new URL("https://" + link).href;
+    try {
+      const url = new URL("https://" + link).href;
+      return url;
+    } catch(e) {
+      return link;
     }
-
-    return link;
   }
 };
 
@@ -21,11 +23,12 @@ export const parseWishlistItems = (
     const [itemKey, valueKey] = key.split("-");
     newWishlistItemsMap.set(itemKey, {
       ...newWishlistItemsMap.get(itemKey),
-      [valueKey]: valueKey === "link" ? parseUrl(value as string) : value,
+      [valueKey]: value,
     });
   }
   return Array.from(newWishlistItemsMap.values()).map((item) => ({
     ...item,
+    link: item.link ? parseUrl(item.link) : null,
     user_id: userId,
   }));
 };
