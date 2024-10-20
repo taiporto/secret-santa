@@ -2,6 +2,7 @@ import { useWindowWidth } from "@/hooks/useWindowWidth";
 import {
   Accordion,
   AccordionButton,
+  AccordionIcon,
   AccordionItem,
   AccordionPanel,
 } from "@chakra-ui/react";
@@ -18,7 +19,9 @@ export const Wrapper = ({
   return (windowWidth || 0) < breakpoints.md && wishlistHasLength ? (
     <Accordion allowToggle>
       <AccordionItem>
-        <AccordionButton>Minha lista de presentes</AccordionButton>
+        <AccordionButton>
+          Ver a lista <AccordionIcon />
+        </AccordionButton>
         <AccordionPanel>{children}</AccordionPanel>
       </AccordionItem>
     </Accordion>
