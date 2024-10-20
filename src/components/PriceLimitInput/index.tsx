@@ -1,12 +1,12 @@
+import React from "react";
 import {
+  As,
   Input,
   InputGroup,
   InputLeftElement,
   InputProps,
-} from "@chakra-ui/input";
-import { Flex } from "@chakra-ui/layout";
-import { As } from "@chakra-ui/react";
-import React from "react";
+  Flex,
+} from "@chakra-ui/react";
 
 type PriceLImitInputProps = { as: As; hideLeftElement?: boolean } & InputProps;
 
