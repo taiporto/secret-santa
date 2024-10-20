@@ -21,14 +21,26 @@ export const ItemForm = ({
 }) => {
   return (
     <Box>
-      <FormLabel>Item {number + 1}</FormLabel>
+      <FormLabel mb={3} fontWeight="bold">
+        Item {number + 1}
+      </FormLabel>
       <Flex align="center" gap={3}>
         <Flex align="center" justify={"space-between"} wrap={"wrap"} gap={2}>
           <HStack>
-            <FormControl id={`item${number}-name`}>
-              <Input name={`item${number}-name`} placeholder={`Nome`} />
+            <FormControl id={`item${number}-name`} isRequired>
+              <FormLabel fontWeight="normal" fontSize="sm" mb={0}>
+                Nome
+              </FormLabel>
+              <Input name={`item${number}-name`} placeholder={`Chocolate`} />
             </FormControl>
-            <FormControl id={`item${number}-price`} maxW={"25%"}>
+            <FormControl
+              id={`item${number}-price`}
+              maxW={"25%"}
+              isRequired={false}
+            >
+              <FormLabel fontWeight="normal" fontSize="sm" mb={0}>
+                Preço
+              </FormLabel>
               <InputGroup>
                 <InputLeftElement
                   pointerEvents="none"
@@ -49,7 +61,13 @@ export const ItemForm = ({
             </FormControl>
           </HStack>
           <FormControl id={`item${number}-link`}>
-            <Input name={`item${number}-link`} placeholder={`Link`} />
+            <FormLabel fontWeight="normal" fontSize="sm" mb={0}>
+              Link
+            </FormLabel>
+            <Input
+              name={`item${number}-link`}
+              placeholder={`https://exemplo.com`}
+            />
           </FormControl>
         </Flex>
         {number !== 0 && (

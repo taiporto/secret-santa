@@ -49,8 +49,8 @@ export const CreateWishlistItemModal = ({
         <ModalCloseButton />
         <ModalBody>
           <form id="createWishlistItems" onSubmit={handleAddItems}>
-            <VStack gap={4}>
-              <SimpleGrid spacing="4">
+            <VStack gap={6}>
+              <SimpleGrid spacing={6}>
                 {Array.from(Array(numberOfItems).keys()).map(
                   (number: number) => (
                     <ItemForm
