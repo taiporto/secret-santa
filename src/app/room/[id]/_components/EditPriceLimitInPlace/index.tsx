@@ -61,6 +61,7 @@ export const EditPriceLimitInPlace = ({ room }: { room: Room }) => {
       fontSize={"lg"}
       fontWeight={"bold"}
       color={room.price_limit === 0 ? "gray.400" : "text.800"}
+      textAlign={{ base: "center", md: "left" }}
       defaultValue={
         room.price_limit ? formatCurrency(+room.price_limit) : NO_DEFINED_VALUE
       }

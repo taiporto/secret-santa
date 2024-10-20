@@ -27,6 +27,10 @@ export default async function RoomPage({ params }: { params: { id: string } }) {
       <Breadcrumbs
         paths={[
           {
+            label: "Página inicial",
+            href: `/`,
+          },
+          {
             label: "Evento",
             href: `#`,
             isCurrentPage: true,

@@ -13,10 +13,6 @@ type BreadcrumbsProps = {
 export const Breadcrumbs = ({ paths }: BreadcrumbsProps) => {
   return (
     <Breadcrumb spacing="8px" separator={<FaChevronRight color="accent.500" />}>
-      <BreadcrumbItem>
-        <BreadcrumbLink href="/">Início</BreadcrumbLink>
-      </BreadcrumbItem>
-
       {paths.map((path) => {
         return (
           <BreadcrumbItem isCurrentPage={path.isCurrentPage} key={path.label}>
