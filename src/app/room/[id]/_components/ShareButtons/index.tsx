@@ -54,7 +54,7 @@ export const ShareButtons = ({ players, roomId }: ShareButtonsProps) => {
         Copiar participantes e links
       </Button>
       <Button
-        colorScheme="whatsapp"
+        colorScheme="green"
         leftIcon={<FaWhatsapp />}
         onClick={handleSendToWhatsapp}
       >
