@@ -22,13 +22,12 @@ export const PlayerList = ({ players, roomId }: PlayerListProps) => {
     <VStack gap={{ base: 6, md: 12 }}>
       <List spacing={4} w={{ base: "100%", md: "80%" }} p={{ base: 4, md: 0 }}>
         {players.map((player) => {
-          const playerLink = generatePlayerLink(player.id, roomId);
           return (
             <ListItem key={player.id}>
               <Heading as="h4" size={["sm", "md"]}>
                 {player.name}
               </Heading>
-              <PlayerLink playerLink={playerLink} />
+              <PlayerLink player={player} roomId={roomId} />
               <Divider mt={4} />
             </ListItem>
           );
