@@ -36,7 +36,7 @@ export const MyWishlist = ({
     <>
       <VStack w="100%">
         <Wrapper wishlistHasLength={!!wishlist.length}>
-          <Skeleton isLoaded={!!wishlist}>
+          <Skeleton w="90%" isLoaded={!!wishlist}>
             <List>
               {wishlist?.map((item: TWishlistItem) => (
                 <Box key={item.id}>

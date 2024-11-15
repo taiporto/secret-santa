@@ -26,12 +26,15 @@ export const ItemForm = ({
       </FormLabel>
       <Flex align="center" gap={3}>
         <Flex align="center" justify={"space-between"} wrap={"wrap"} gap={2}>
-          <HStack>
+          <HStack w="100%">
             <FormControl id={`item${number}-name`} isRequired>
               <FormLabel fontWeight="normal" fontSize="sm" mb={0}>
                 Nome
               </FormLabel>
-              <Input name={`item${number}-name`} placeholder={`Chocolate`} />
+              <Input
+                name={`item${number}-name`}
+                placeholder={"Nome do presente"}
+              />
             </FormControl>
             <FormControl
               id={`item${number}-price`}

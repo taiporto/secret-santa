@@ -22,7 +22,13 @@ export const WishlistItem = ({
 
   return (
     <Flex w="100%" gap={4} align="center">
-      <Flex w="100%" justify="space-between" gap={2} align="center">
+      <Flex
+        w="100%"
+        justify="space-between"
+        flexDirection={allowDelete ? "column" : "row"}
+        gap={2}
+        align={allowDelete ? "flex-start" : "center"}
+      >
         {wishlistItemData.link ? (
           <Link
             href={wishlistItemData.link}
@@ -38,7 +44,7 @@ export const WishlistItem = ({
             {wishlistItemData.name}
           </Heading>
         )}
-        <Text>
+        <Text fontSize="sm">
           {wishlistItemData.price
             ? formatCurrency(+wishlistItemData.price)
             : "-"}

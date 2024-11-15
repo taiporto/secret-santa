@@ -37,8 +37,7 @@ export const GifteeData = ({
           <Accordion allowToggle>
             <AccordionItem>
               <AccordionButton>
-                Lista de presentes do sorteado
-                <AccordionIcon />
+                Lista de presentes do sorteado <AccordionIcon />
               </AccordionButton>
               <AccordionPanel>
                 {gifteesWishlist.map((item: TWishlistItem) => {
