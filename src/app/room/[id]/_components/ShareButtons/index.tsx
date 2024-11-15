@@ -14,12 +14,7 @@ export const ShareButtons = ({ players, roomId }: ShareButtonsProps) => {
   const message = createShareableMessage(players, roomId);
 
   const handleSendToWhatsapp = () => {
-    sendToWhatsapp(
-      message
-        .replaceAll("\n", "%0A")
-        .replaceAll(" ", "%20")
-        .replaceAll("**", "%2A")
-    );
+    sendToWhatsapp(message);
   };
 
   return (
