@@ -62,7 +62,7 @@ export const GifteeData = ({
           variant="outline"
           leftIcon={<FaAmazon />}
           as="a"
-          href="https://www.amazon.com.br?&linkCode=ll2&tag=amigooculto-20&linkId=6ea28ef9c399b868ce8e1ec36b84b367&language=pt_BR&ref_=as_li_ss_tl"
+          href="https://amzn.to/4nhngqQ"
           target="_blank"
         >
           Comprar presente na Amazon
