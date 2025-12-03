@@ -26,7 +26,7 @@ export const WishlistItem = ({
         w="100%"
         justify="space-between"
         flexDirection={allowDelete ? "column" : "row"}
-        gap={2}
+        gap={1}
         align={allowDelete ? "flex-start" : "center"}
       >
         {wishlistItemData.link ? (
@@ -35,16 +35,16 @@ export const WishlistItem = ({
             textDecoration={"underline"}
             isExternal
           >
-            <Heading size="xs" as="h5">
+            <Heading size="xs" as="h5" pt={5}>
               {wishlistItemData.name}
             </Heading>
           </Link>
         ) : (
-          <Heading size="xs" as="h5">
+          <Heading size="xs" as="h5" pt={5}>
             {wishlistItemData.name}
           </Heading>
         )}
-        <Text fontSize="sm">
+        <Text as="span" fontSize="sm">
           {wishlistItemData.price
             ? formatCurrency(+wishlistItemData.price)
             : "-"}
@@ -56,6 +56,7 @@ export const WishlistItem = ({
           colorScheme="red"
           variant="ghost"
           size="sm"
+          p={0}
           icon={<DeleteIcon />}
           onClick={handleDeleteClick}
         />

@@ -40,7 +40,7 @@ export const GifterData = ({
         </Suspense>
         <RoomData room={room} />
       </Box>
-      <Box>
+      <Box w="100%">
         <Suspense fallback={<SkeletonText noOfLines={1} spacing="4" />}>
           <Heading
             as="h3"

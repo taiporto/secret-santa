@@ -36,14 +36,14 @@ export const MyWishlist = ({
     <>
       <VStack w="100%">
         <Wrapper wishlistHasLength={!!wishlist.length}>
-          <Skeleton w="90%" isLoaded={!!wishlist}>
+          <Skeleton w="100%" marginX="auto" isLoaded={!!wishlist}>
             <List>
-              {wishlist?.map((item: TWishlistItem) => (
+              {wishlist?.map((item: TWishlistItem, index: number) => (
                 <Box key={item.id}>
                   <Box my="4">
                     <WishlistItem wishlistItemData={item} />
                   </Box>
-                  <Divider />
+                  {index !== wishlist.length - 1 && <Divider />}
                 </Box>
               ))}
             </List>
