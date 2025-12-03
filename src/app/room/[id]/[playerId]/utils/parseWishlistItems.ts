@@ -8,7 +8,7 @@ const parseUrl = (link: string): string => {
     try {
       const url = new URL("https://" + link).href;
       return url;
-    } catch(e) {
+    } catch (e) {
       return link;
     }
   }
@@ -28,6 +28,7 @@ export const parseWishlistItems = (
   }
   return Array.from(newWishlistItemsMap.values()).map((item) => ({
     ...item,
+    price: item.price ? Number(item.price) : null,
     link: item.link ? parseUrl(item.link) : null,
     user_id: userId,
   }));

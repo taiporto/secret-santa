@@ -17,18 +17,27 @@ export const useWishlist = (initialWishlist?: Wishlist) => {
 
   const setNewWishlistItems = (
     newItems: WishlistItem[],
-    callback?: () => void
+    successCallback?: () => void,
+    errorCallback?: () => void
   ) => {
     handleUpdateWishlist(newItems).then((result) => {
       if (result?.length) {
-        globalStore.set(myWishlistAtom, (prev) => [...prev, ...newItems]);
+        globalStore.set(myWishlistAtom, (prev) => [...prev, ...result]);
         toast({
           title: "Itens adicionados à lista de presentes",
           status: "success",
           duration: 2000,
         });
       }
-      callback?.();
+      successCallback?.();
+    }).catch((error) => {
+      console.error(error);
+      toast({
+        title: "Erro ao adicionar itens à lista de presentes",
+        status: "error",
+        duration: 2000,
+      });
+      errorCallback?.();
     });
   };
 
@@ -44,6 +53,13 @@ export const useWishlist = (initialWishlist?: Wishlist) => {
           duration: 2000,
         });
       }
+    }).catch((error) => {
+      console.error(error);
+      toast({
+        title: "Erro ao remover item da lista de presentes",
+        status: "error",
+        duration: 2000,
+      });
     });
   };
 

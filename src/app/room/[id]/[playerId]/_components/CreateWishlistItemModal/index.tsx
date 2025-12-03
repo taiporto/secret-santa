@@ -38,6 +38,8 @@ export const CreateWishlistItemModal = ({
     setNewWishlistItems(newItems, () => {
       setIsLoading(false);
       onClose();
+    }, () => {
+      setIsLoading(false);
     });
   };
 
